@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<link type="text/css" rel="stylesheet" href="main.css">
 	</head>
+	
 	<body>
 		<div id="start-screen">
 			<img id="logo-image" src="assets/images/logo.png" alt="Imagem Centralizada">
@@ -49,7 +50,6 @@
 			init();
 
 			function init() {
-            	// Inicialização da tela inicial
             	document.getElementById('start-button').addEventListener('click', showProductSelectionScreen);
             	document.getElementById('back-button').addEventListener('click', showStartScreen);
             	document.getElementById('product1-button').addEventListener('click', () => startAR('product1'));

@@ -1,4 +1,60 @@
 @font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-Medium.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-MediumItalic.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-SemiBold.ttf') format('truetype');
+    font-weight: 600; /* Semibold */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600; /* Semibold Italic */
+    font-style: italic;
+}
+
+@font-face {
     font-family: 'Minion3';
     src: url('assets/fonts/Minion3-Bold.ttf') format('truetype');
     font-weight: bold;
@@ -96,11 +152,21 @@ em {
 }
 
 #start-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 18px;
-    color: #000;
-    cursor: pointer;
+    position: absolute; /* Para permitir o posicionamento absoluto */
+    bottom: 15%; /* 20% acima da parte inferior da tela */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta a posição para o centro */
+    padding: 10px 20px; /* Espaçamento interno do botão */
+    font-size: 18px; /* Tamanho da fonte */
+    color: #fff; /* Cor da fonte (branca) */
+    background-color: #000; /* Cor de fundo (preto) */
+    font-family: 'Minion3', sans-serif; /* Fonte Minion3 */
+    font-weight: bold; /* Garante que a versão Bold seja usada */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    border: none; /* Remove a borda padrão */
+    border-radius: 5px; /* Bordas arredondadas, opcional */
+    text-align: center; /* Centraliza o texto dentro do botão */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
 }
 
 #product1-button {
