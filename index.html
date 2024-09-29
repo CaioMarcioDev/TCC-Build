@@ -8,9 +8,21 @@
 		<link type="text/css" rel="stylesheet" href="main.css">
 	</head>
 	<body>
+		<div id="start-screen">
+			<img id="logo-image" src="assets/images/logo.png" alt="Imagem Centralizada">
+			<h2 id="ar-experience">Uma experiência em<br>realidade aumentada</h2>
+			<button id="start-button">Começar</button>
+		</div>
 
-		<div id="info">
-			<a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> Mulheres do Design Imobiliário<br/>(Chrome Android 81+)
+		<div id="product-selection-screen" style="display: none;">
+			<h2>Selecione um Produto</h2>
+			<button id="product1-button">Produto 1</button>
+			<button id="product2-button">Produto 2</button>
+			<button id="back-button">Voltar</button>
+		</div>
+
+		<div id="ar-screen" style="display: none;">
+			<!-- Tela AR que será ativada após selecionar um produto -->
 		</div>
 
 		<script type="importmap">
@@ -30,28 +42,47 @@
 			let container;
 			let camera, scene, renderer;
 			let controller;
-
 			let reticle;
-
 			let hitTestSource = null;
 			let hitTestSourceRequested = false;
 
 			init();
 
 			function init() {
+            	// Inicialização da tela inicial
+            	document.getElementById('start-button').addEventListener('click', showProductSelectionScreen);
+            	document.getElementById('back-button').addEventListener('click', showStartScreen);
+            	document.getElementById('product1-button').addEventListener('click', () => startAR('product1'));
+            	document.getElementById('product2-button').addEventListener('click', () => startAR('product2'));
+        	}
+
+			function showStartScreen() {
+            	document.getElementById('start-screen').style.display = 'block';
+            	document.getElementById('product-selection-screen').style.display = 'none';
+            	document.getElementById('ar-screen').style.display = 'none';
+        	}
+
+        	function showProductSelectionScreen() {
+            	document.getElementById('start-screen').style.display = 'none';
+            	document.getElementById('product-selection-screen').style.display = 'block';
+            	document.getElementById('ar-screen').style.display = 'none';
+        	}
+
+			function startAR() {
+ 				// Esconde todas as telas e mostra a tela AR
+ 				document.getElementById('start-screen').style.display = 'none';
+            	document.getElementById('product-selection-screen').style.display = 'none';
+            	document.getElementById('ar-screen').style.display = 'block';
 
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
 				scene = new THREE.Scene();
-
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 20 );
 
 				const light = new THREE.HemisphereLight( 0xffffff, 0xbbbbff, 3 );
 				light.position.set( 0.5, 1, 0.25 );
 				scene.add( light );
-
-				//
 
 				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -60,11 +91,7 @@
 				renderer.xr.enabled = true;
 				container.appendChild( renderer.domElement );
 
-				//
-
 				document.body.appendChild( ARButton.createButton( renderer, { requiredFeatures: [ 'hit-test' ] } ) );
-
-				//
 
 				const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
 

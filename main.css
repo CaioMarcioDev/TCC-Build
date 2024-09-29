@@ -1,0 +1,151 @@
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Medium.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-MediumItalic.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Semibold.ttf') format('truetype');
+    font-weight: 600; /* Semibold */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-SemiboldItalic.ttf') format('truetype');
+    font-weight: 600; /* Semibold Italic */
+    font-style: italic;
+}
+
+body {
+    font-family: 'Minion3', sans-serif; /* Define a fonte padrão */
+}
+
+h1 {
+    font-weight: bold; /* Usar a fonte Bold */
+}
+
+h2 {
+    font-weight: 600; /* Usar a fonte Semibold */
+}
+
+p {
+    font-weight: normal; /* Usar a fonte Regular */
+}
+
+em {
+    font-style: italic; /* Usar a fonte Italic */
+}
+
+.medium-text {
+    font-weight: 500; /* Usar a fonte Medium */
+}
+
+.semi-bold-text {
+    font-weight: 600; /* Usar a fonte Semibold */
+}
+
+#start-screen,
+#product-selection-screen,
+#ar-screen {
+    position: fixed; /* Use 'fixed' para ocupar a tela inteira */
+    top: 0; /* Inicia do topo da tela */
+    left: 0; /* Inicia do lado esquerdo da tela */
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    text-align: center;
+    background-color: white; /* Cor de fundo */
+    z-index: 10; /* Garante que fique acima de outros elementos */
+}
+
+#start-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #000;
+    cursor: pointer;
+}
+
+#product1-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #000;
+    cursor: pointer;
+}
+
+#product2-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #000;
+    cursor: pointer;
+}
+
+#back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #000;
+    cursor: pointer;
+}
+
+#logo-image {
+	position: absolute;
+	top: 15%; /* Coloca a imagem 25% a partir do topo da página */
+	left: 50%;
+	transform: translate(-50%, 0); /* Centraliza horizontalmente sem afetar a altura */
+	width: 300px; /* Ajuste o tamanho da imagem */
+	height: auto;
+	z-index: 10; /* Garante que a imagem fique acima do conteúdo 3D */
+}
+
+#ar-experience {
+    position: absolute;
+    top: 65%; /* Ajuste conforme necessário para a posição abaixo da logo */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza horizontalmente */
+    font-family: 'Minion3', sans-serif; /* Use a fonte que você definiu anteriormente */
+    font-size: 20px; /* Ajuste o tamanho da fonte conforme necessário */
+    color: #000; /* Ajuste a cor conforme necessário */
+    text-align: center; /* Centraliza o texto */
+    z-index: 10; /* Garante que o texto fique acima do conteúdo 3D */
+    white-space: normal; /* Permite quebras de linha */
+}
