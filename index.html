@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<link type="text/css" rel="stylesheet" href="main.css">
 	</head>
-	
+
 	<body>
 		<div id="start-screen">
 			<img id="logo-image" src="assets/images/logo.png" alt="Imagem Centralizada">
@@ -16,14 +16,28 @@
 		</div>
 
 		<div id="product-selection-screen" style="display: none;">
-			<h2>Selecione um Produto</h2>
+			<h2>Escolha o móvel:</h2>
 			<button id="product1-button">Produto 1</button>
 			<button id="product2-button">Produto 2</button>
-			<button id="back-button">Voltar</button>
+			<button id="back-button">
+				<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
+			</button>
+			<button id="next-button">
+				<img src="assets/images/next_button.png" alt="Next" style="width: 32px; height: auto;">
+			</button>
+			<button id="previous-button">
+				<img src="assets/images/previous_button.png" alt="Previous" style="width: 32px; height: auto;">
+			</button>
 		</div>
 
 		<div id="ar-screen" style="display: none;">
 			<!-- Tela AR que será ativada após selecionar um produto -->
+			<button id="back-button">
+				<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
+			</button>
+			<button id="reset-button"></button>
+				<img src="assets/images/reset_button.png" alt="Reset" style="width: 32px; height: auto;">
+			</button>
 		</div>
 
 		<script type="importmap">

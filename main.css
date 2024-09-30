@@ -169,6 +169,22 @@ em {
     z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
 }
 
+#back-button {
+    position: absolute; /* Para permitir o posicionamento absoluto */
+    top: 15px; /* Distância do topo da tela */
+    left: 15px; /* Distância da esquerda da tela */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#back-button img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
 #product1-button {
     margin-top: 20px;
     padding: 10px 20px;
@@ -178,14 +194,6 @@ em {
 }
 
 #product2-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 18px;
-    color: #000;
-    cursor: pointer;
-}
-
-#back-button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 18px;
