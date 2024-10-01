@@ -185,20 +185,38 @@ em {
     height: auto; /* Mantém a proporção da imagem */
 }
 
-#product1-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 18px;
-    color: #000;
-    cursor: pointer;
+#next-button {
+    position: absolute; /* Posicionamento absoluto */
+    top: 50%; /* Centraliza verticalmente na tela */
+    right: 10px; /* Ancora o botão à direita da tela */
+    transform: translateY(-50%); /* Ajusta a posição vertical */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
 }
 
-#product2-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 18px;
-    color: #000;
-    cursor: pointer;
+#next-button img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+#previous-button {
+    position: absolute; /* Posicionamento absoluto */
+    top: 50%; /* Centraliza verticalmente na tela */
+    left: 10px; /* Ancora o botão à esquerda da tela */
+    transform: translateY(-50%); /* Ajusta a posição vertical */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#previous-button img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
 }
 
 #logo-image {
@@ -222,4 +240,43 @@ em {
     text-align: center; /* Centraliza o texto */
     z-index: 10; /* Garante que o texto fique acima do conteúdo 3D */
     white-space: normal; /* Permite quebras de linha */
+}
+
+#choose-mobile {
+    position: absolute;
+    top: 25px; /* Ajuste conforme necessário para a posição abaixo da logo */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza horizontalmente */
+    font-family: 'Minion3', sans-serif; /* Use a fonte que você definiu anteriormente */
+    font-size: 20px; /* Ajuste o tamanho da fonte conforme necessário */
+    color: #000; /* Ajuste a cor conforme necessário */
+    text-align: center; /* Centraliza o texto */
+    z-index: 10; /* Garante que o texto fique acima do conteúdo 3D */
+    white-space: normal; /* Permite quebras de linha */
+}
+
+#product-name {
+    position: absolute;
+    bottom: 20px; /* Ancorado na parte inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Minion3', sans-serif;
+    font-size: 20px;
+    color: #000;
+    text-align: center;
+    z-index: 10;
+}
+
+#product-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    z-index: 10;
+    width: 200px; /* Defina a largura desejada */
+    height: auto; /* Defina a altura desejada */
 }
