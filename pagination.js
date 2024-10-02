@@ -1,9 +1,9 @@
 const productImages = [
-    { image: 'assets/images/cadeira-garca.png', name: 'Cadeira Garça' },
-    { image: 'assets/images/cadeira-trapezio.png', name: 'Cadeira Trapézio' },
-    { image: 'assets/images/poltrona-bauhaus.png', name: 'Poltrona Bauhaus' },
-    { image: 'assets/images/poltrona-lacuna.png', name: 'Poltrona Lacuna' },
-    { image: 'assets/images/poltrona-pollux.png', name: 'Poltrona Pollux' }
+    { image: 'assets/images/cadeira-garca.png', name: 'Cadeira Garça', model: 'assets/models/poltrona_lacuna.glb' },
+    { image: 'assets/images/cadeira-trapezio.png', name: 'Cadeira Trapézio', model: 'assets/models/poltrona_lacuna.glb' },
+    { image: 'assets/images/poltrona-bauhaus.png', name: 'Poltrona Bauhaus', model: 'assets/models/poltrona_lacuna.glb' },
+    { image: 'assets/images/poltrona-lacuna.png', name: 'Poltrona Lacuna', model: 'assets/models/poltrona_lacuna.glb' },
+    { image: 'assets/images/poltrona-pollux.png', name: 'Poltrona Pollux', model: 'assets/models/poltrona_lacuna.glb' }
 ];
 
 let currentPage = 0;
