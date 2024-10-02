@@ -1,48 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Mulheres do Design Imobiliário</title>
-		<script src="https://launchar.app/sdk/v1?key=AgeXTjaf9TLbp75chNzniCVoz4kWWsRD&redirect=true"></script>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-		<link type="text/css" rel="stylesheet" href="main.css">
-	</head>
 
-	<body>
-		<div id="start-screen">
-			<img id="logo-image" src="assets/images/logo.png" alt="Imagem Centralizada">
-			<h2 id="ar-experience">Uma experiência em<br>realidade aumentada</h2>
-			<button id="start-button">Começar</button>
-		</div>
+<head>
+	<title>Mulheres do Design Imobiliário</title>
+	<script src="https://launchar.app/sdk/v1?key=AgeXTjaf9TLbp75chNzniCVoz4kWWsRD&redirect=true"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<link type="text/css" rel="stylesheet" href="main.css">
+</head>
 
-		<div id="product-selection-screen" style="display: none;">
-			<h2 id="choose-mobile">Escolha o móvel:</h2>
-			<button id="product-button">
-				<img id="product-image" src="assets/images/cadeira-garca.png" alt="Product" style="width: 200px; height: auto;">
-			</button>
-			<button id="back-button">
-				<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
-			</button>
-			<button id="next-button">
-				<img src="assets/images/next_button.png" alt="Next" style="width: 32px; height: auto;">
-			</button>
-			<button id="previous-button">
-				<img src="assets/images/previous_button.png" alt="Previous" style="width: 32px; height: auto;">
-			</button>
-			<h2 id="product-name">Cadeira Garça</h2>
-		</div>
+<body>
+	<!-- Tela inicial -->
+	<div id="start-screen">
+		<img id="logo-image" src="assets/images/logo.png" alt="Imagem Centralizada">
+		<h2 id="ar-experience">Uma experiência em<br>realidade aumentada</h2>
+		<button id="start-button">Começar</button>
+	</div>
 
-		<div id="ar-screen" style="display: none;">
-			<!-- Tela AR que será ativada após selecionar um produto -->
-			<button id="back-button">
-				<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
-			</button>
-			<button id="reset-button">
-				<img src="assets/images/reset_button.png" alt="Reset" style="width: 32px; height: auto;">
-			</button>
-		</div>
 
-		<script type="importmap">
+	<!-- Tela de seleção de produtos -->
+	<div id="product-selection-screen" style="display: none;">
+		<h2 id="choose-mobile">Escolha o móvel:</h2>
+		<button id="product-button">
+			<img id="product-image" src="assets/images/cadeira-garca.png" alt="Product"
+				style="width: 200px; height: auto;">
+		</button>
+		<button id="back-button">
+			<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
+		</button>
+		<button id="next-button">
+			<img src="assets/images/next_button.png" alt="Next" style="width: 32px; height: auto;">
+		</button>
+		<button id="previous-button">
+			<img src="assets/images/previous_button.png" alt="Previous" style="width: 32px; height: auto;">
+		</button>
+		<h2 id="product-name">Cadeira Garça</h2>
+	</div>
+
+
+	<!-- Tela AR que será ativada após selecionar um produto -->
+	<div id="ar-screen" style="display: none;">
+		<button id="back-button-2">
+			<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
+		</button>
+		<button id="reset-button">
+			<img src="assets/images/reset_button.png" alt="Reset" style="width: 32px; height: auto;">
+		</button>
+	</div>
+
+
+	<script type="importmap">
 			{
 				"imports": {
 					"three": "./build/three.module.js",
@@ -52,164 +59,170 @@
 			}
 		</script>
 
-		<script type="module">
+	<script type="module">
 
-			import * as THREE from 'three';
-			import { ARButton } from 'three/addons/webxr/ARButton.js';
-			import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+		import * as THREE from 'three';
+		import { ARButton } from 'three/addons/webxr/ARButton.js';
+		import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-			let container;
-			let camera, scene, renderer;
-			let controller;
-			let reticle;
-			let hitTestSource = null;
-			let hitTestSourceRequested = false;
+		let container;
+		let camera, scene, renderer;
+		let controller;
+		let reticle;
+		let hitTestSource = null;
+		let hitTestSourceRequested = false;
 
-			init();
+		init();
 
-			function init() {
-            	document.getElementById('start-button').addEventListener('click', showProductSelectionScreen);
-            	document.getElementById('back-button').addEventListener('click', showStartScreen);
-				document.getElementById('product-button').addEventListener('click', () => startAR(productImages[currentPage].model));            	
-        	}
+		function init() {
+			document.getElementById('start-button').addEventListener('click', showProductSelectionScreen);
+			document.getElementById('back-button').addEventListener('click', showStartScreen);
+			document.getElementById('back-button-2').addEventListener('click', showProductSelectionScreen);
+			document.getElementById('product-button').addEventListener('click', () => startAR(productImages[currentPage].model));
+			document.getElementById('reset-button').addEventListener('click', resetAR);
+		}
 
-			function showStartScreen() {
-            	document.getElementById('start-screen').style.display = 'block';
-            	document.getElementById('product-selection-screen').style.display = 'none';
-            	document.getElementById('ar-screen').style.display = 'none';
-        	}
+		function showStartScreen() {
+			document.getElementById('start-screen').style.display = 'block';
+			document.getElementById('product-selection-screen').style.display = 'none';
+			document.getElementById('ar-screen').style.display = 'none';
+		}
 
-        	function showProductSelectionScreen() {
-            	document.getElementById('start-screen').style.display = 'none';
-            	document.getElementById('product-selection-screen').style.display = 'block';
-            	document.getElementById('ar-screen').style.display = 'none';
-        	}
+		function showProductSelectionScreen() {
+			document.getElementById('start-screen').style.display = 'none';
+			document.getElementById('product-selection-screen').style.display = 'block';
+			document.getElementById('ar-screen').style.display = 'none';
+		}
 
-			function startAR(modelPath) {
-    			// Esconde todas as telas e mostra a tela AR
-    			document.getElementById('start-screen').style.display = 'none';
-    			document.getElementById('product-selection-screen').style.display = 'none';
-    			document.getElementById('ar-screen').style.display = 'block';
+		function resetAR() {
 
-    			container = document.createElement('div');
-    			document.body.appendChild(container);
+		}
 
-    			scene = new THREE.Scene();
-    			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
+		function startAR(modelPath) {
+			// Esconde todas as telas e mostra a tela AR
+			document.getElementById('start-screen').style.display = 'none';
+			document.getElementById('product-selection-screen').style.display = 'none';
+			document.getElementById('ar-screen').style.display = 'block';
 
-    			const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 3);
-    			light.position.set(0.5, 1, 0.25);
-    			scene.add(light);
+			// Configura a cena e o renderer
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
 
-    			renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    			renderer.setPixelRatio(window.devicePixelRatio);
-    			renderer.setSize(window.innerWidth, window.innerHeight);
-    			renderer.setAnimationLoop(animate);
-    			renderer.xr.enabled = true;
-    			container.appendChild(renderer.domElement);
+			const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 3);
+			light.position.set(0.5, 1, 0.25);
+			scene.add(light);
 
-    			document.body.appendChild(ARButton.createButton(renderer, { requiredFeatures: ['hit-test'] }));
+			renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.setAnimationLoop(animate);
+			renderer.xr.enabled = true;
+			document.body.appendChild(renderer.domElement);
 
-    			// Carregar o modelo GLB
-    			const loader = new GLTFLoader();
-    			let productMesh;
+			// Inicia a sessão AR automaticamente
+			navigator.xr.requestSession('immersive-ar', { requiredFeatures: ['hit-test'] }).then(function (session) {
+				renderer.xr.setSession(session);
+			});
 
-    			function onSelect() {
-        			if (reticle.visible && productMesh) {
-            			const clone = productMesh.clone(); // Clona o modelo para instanciá-lo no reticle
-            			reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
-            			scene.add(clone);
-        			}
-    			}
+			// Carregar o modelo GLB
+			const loader = new GLTFLoader();
+			let productMesh;
 
-    			// Carrega o modelo GLB
-    			loader.load(modelPath, function(gltf) {
-        			productMesh = gltf.scene; // Armazena o modelo para ser instanciado
-        			productMesh.scale.set(0.2, 0.2, 0.2); // Ajuste o tamanho do modelo conforme necessário
-    			}, undefined, function(error) {
-        			console.error('Erro ao carregar o modelo:', error);
-				});
-
-    			controller = renderer.xr.getController(0);
-    			controller.addEventListener('select', onSelect);
-    			scene.add(controller);
-
-    			reticle = new THREE.Mesh(
-        			new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2),
-        			new THREE.MeshBasicMaterial()
-   				 );
-    			reticle.matrixAutoUpdate = false;
-    			reticle.visible = false;
-    			scene.add(reticle);
-
-    			window.addEventListener('resize', onWindowResize);
+			function onSelect() {
+				if (reticle.visible && productMesh) {
+					const clone = productMesh.clone(); // Clona o modelo para instanciá-lo no reticle
+					reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
+					scene.add(clone);
+				}
 			}
 
-			function onWindowResize() {
+			// Carrega o modelo GLB
+			loader.load(modelPath, function (gltf) {
+				productMesh = gltf.scene; // Armazena o modelo para ser instanciado
+				productMesh.scale.set(0.2, 0.2, 0.2); // Ajuste o tamanho do modelo conforme necessário
+			}, undefined, function (error) {
+				console.error('Erro ao carregar o modelo:', error);
+			});
 
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
+			controller = renderer.xr.getController(0);
+			controller.addEventListener('select', onSelect);
+			scene.add(controller);
 
-				renderer.setSize( window.innerWidth, window.innerHeight );
-			}
+			reticle = new THREE.Mesh(
+				new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2),
+				new THREE.MeshBasicMaterial()
+			);
+			reticle.matrixAutoUpdate = false;
+			reticle.visible = false;
+			scene.add(reticle);
 
-			function animate( timestamp, frame ) {
+			window.addEventListener('resize', onWindowResize);
+		}
 
-				if ( frame ) {
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
 
-					const referenceSpace = renderer.xr.getReferenceSpace();
-					const session = renderer.xr.getSession();
+		function animate(timestamp, frame) {
 
-					if ( hitTestSourceRequested === false ) {
+			if (frame) {
 
-						session.requestReferenceSpace( 'viewer' ).then( function ( referenceSpace ) {
+				const referenceSpace = renderer.xr.getReferenceSpace();
+				const session = renderer.xr.getSession();
 
-							session.requestHitTestSource( { space: referenceSpace } ).then( function ( source ) {
+				if (hitTestSourceRequested === false) {
 
-								hitTestSource = source;
+					session.requestReferenceSpace('viewer').then(function (referenceSpace) {
 
-							} );
+						session.requestHitTestSource({ space: referenceSpace }).then(function (source) {
 
-						} );
+							hitTestSource = source;
 
-						session.addEventListener( 'end', function () {
+						});
 
-							hitTestSourceRequested = false;
-							hitTestSource = null;
+					});
 
-						} );
+					session.addEventListener('end', function () {
 
-						hitTestSourceRequested = true;
+						hitTestSourceRequested = false;
+						hitTestSource = null;
 
-					}
+					});
 
-					if ( hitTestSource ) {
+					hitTestSourceRequested = true;
 
-						const hitTestResults = frame.getHitTestResults( hitTestSource );
+				}
 
-						if ( hitTestResults.length ) {
+				if (hitTestSource) {
 
-							const hit = hitTestResults[ 0 ];
+					const hitTestResults = frame.getHitTestResults(hitTestSource);
 
-							reticle.visible = true;
-							reticle.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
+					if (hitTestResults.length) {
 
-						} else {
+						const hit = hitTestResults[0];
 
-							reticle.visible = false;
+						reticle.visible = true;
+						reticle.matrix.fromArray(hit.getPose(referenceSpace).transform.matrix);
 
-						}
+					} else {
+
+						reticle.visible = false;
 
 					}
 
 				}
 
-				renderer.render( scene, camera );
-
 			}
 
-		</script>
+			renderer.render(scene, camera);
 
-		<script src="pagination.js"></script>
-	</body>
+		}
+
+	</script>
+
+	<script src="pagination.js"></script>
+</body>
+
 </html>
