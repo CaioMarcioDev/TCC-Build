@@ -185,6 +185,38 @@ em {
     height: auto; /* Mantém a proporção da imagem */
 }
 
+#back-button-2 {
+    position: absolute; /* Para permitir o posicionamento absoluto */
+    top: 15px; /* Distância do topo da tela */
+    left: 15px; /* Distância da esquerda da tela */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#back-button-2 img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+#reset-button {
+    position: absolute; /* Para permitir o posicionamento absoluto */
+    top: 15px; /* Distância do topo da tela */
+    right: 15px; /* Distância da esquerda da tela */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#reset-button img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
 #next-button {
     position: absolute; /* Posicionamento absoluto */
     top: 50%; /* Centraliza verticalmente na tela */
