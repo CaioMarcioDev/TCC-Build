@@ -37,7 +37,7 @@
 			<button id="back-button">
 				<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
 			</button>
-			<button id="reset-button"></button>
+			<button id="reset-button">
 				<img src="assets/images/reset_button.png" alt="Reset" style="width: 32px; height: auto;">
 			</button>
 		</div>
@@ -46,7 +46,8 @@
 			{
 				"imports": {
 					"three": "./build/three.module.js",
-					"three/addons/": "./jsm/"
+					"three/addons/": "./jsm/",
+					"three/addons/loaders/GLTFLoader.js": "./jsm/loaders/GLTFLoader.js"
 				}
 			}
 		</script>
@@ -55,6 +56,7 @@
 
 			import * as THREE from 'three';
 			import { ARButton } from 'three/addons/webxr/ARButton.js';
+			import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 			let container;
 			let camera, scene, renderer;
@@ -68,8 +70,7 @@
 			function init() {
             	document.getElementById('start-button').addEventListener('click', showProductSelectionScreen);
             	document.getElementById('back-button').addEventListener('click', showStartScreen);
-            	document.getElementById('product1-button').addEventListener('click', () => startAR('product1'));
-            	document.getElementById('product2-button').addEventListener('click', () => startAR('product2'));
+				document.getElementById('product-button').addEventListener('click', () => startAR(productImages[currentPage].model));            	
         	}
 
 			function showStartScreen() {
@@ -84,63 +85,64 @@
             	document.getElementById('ar-screen').style.display = 'none';
         	}
 
-			function startAR() {
- 				// Esconde todas as telas e mostra a tela AR
- 				document.getElementById('start-screen').style.display = 'none';
-            	document.getElementById('product-selection-screen').style.display = 'none';
-            	document.getElementById('ar-screen').style.display = 'block';
+			function startAR(modelPath) {
+    			// Esconde todas as telas e mostra a tela AR
+    			document.getElementById('start-screen').style.display = 'none';
+    			document.getElementById('product-selection-screen').style.display = 'none';
+    			document.getElementById('ar-screen').style.display = 'block';
 
-				container = document.createElement( 'div' );
-				document.body.appendChild( container );
+    			container = document.createElement('div');
+    			document.body.appendChild(container);
 
-				scene = new THREE.Scene();
-				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 20 );
+    			scene = new THREE.Scene();
+    			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
 
-				const light = new THREE.HemisphereLight( 0xffffff, 0xbbbbff, 3 );
-				light.position.set( 0.5, 1, 0.25 );
-				scene.add( light );
+    			const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 3);
+    			light.position.set(0.5, 1, 0.25);
+    			scene.add(light);
 
-				renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				renderer.setAnimationLoop( animate );
-				renderer.xr.enabled = true;
-				container.appendChild( renderer.domElement );
+    			renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    			renderer.setPixelRatio(window.devicePixelRatio);
+    			renderer.setSize(window.innerWidth, window.innerHeight);
+    			renderer.setAnimationLoop(animate);
+    			renderer.xr.enabled = true;
+    			container.appendChild(renderer.domElement);
 
-				document.body.appendChild( ARButton.createButton( renderer, { requiredFeatures: [ 'hit-test' ] } ) );
+    			document.body.appendChild(ARButton.createButton(renderer, { requiredFeatures: ['hit-test'] }));
 
-				const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
+    			// Carregar o modelo GLB
+    			const loader = new GLTFLoader();
+    			let productMesh;
 
-				function onSelect() {
+    			function onSelect() {
+        			if (reticle.visible && productMesh) {
+            			const clone = productMesh.clone(); // Clona o modelo para instanciá-lo no reticle
+            			reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
+            			scene.add(clone);
+        			}
+    			}
 
-					if ( reticle.visible ) {
+    			// Carrega o modelo GLB
+    			loader.load(modelPath, function(gltf) {
+        			productMesh = gltf.scene; // Armazena o modelo para ser instanciado
+        			productMesh.scale.set(0.2, 0.2, 0.2); // Ajuste o tamanho do modelo conforme necessário
+    			}, undefined, function(error) {
+        			console.error('Erro ao carregar o modelo:', error);
+				});
 
-						const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-						const mesh = new THREE.Mesh( geometry, material );
-						reticle.matrix.decompose( mesh.position, mesh.quaternion, mesh.scale );
-						mesh.scale.y = Math.random() * 2 + 1;
-						scene.add( mesh );
+    			controller = renderer.xr.getController(0);
+    			controller.addEventListener('select', onSelect);
+    			scene.add(controller);
 
-					}
+    			reticle = new THREE.Mesh(
+        			new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2),
+        			new THREE.MeshBasicMaterial()
+   				 );
+    			reticle.matrixAutoUpdate = false;
+    			reticle.visible = false;
+    			scene.add(reticle);
 
-				}
-
-				controller = renderer.xr.getController( 0 );
-				controller.addEventListener( 'select', onSelect );
-				scene.add( controller );
-
-				reticle = new THREE.Mesh(
-					new THREE.RingGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
-					new THREE.MeshBasicMaterial()
-				);
-				reticle.matrixAutoUpdate = false;
-				reticle.visible = false;
-				scene.add( reticle );
-
-				//
-
-				window.addEventListener( 'resize', onWindowResize );
-
+    			window.addEventListener('resize', onWindowResize);
 			}
 
 			function onWindowResize() {
@@ -149,10 +151,7 @@
 				camera.updateProjectionMatrix();
 
 				renderer.setSize( window.innerWidth, window.innerHeight );
-
 			}
-
-			//
 
 			function animate( timestamp, frame ) {
 
