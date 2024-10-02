@@ -139,8 +139,7 @@ em {
 }
 
 #start-screen,
-#product-selection-screen,
-#ar-screen {
+#product-selection-screen {
     position: fixed; /* Use 'fixed' para ocupar a tela inteira */
     top: 0; /* Inicia do topo da tela */
     left: 0; /* Inicia do lado esquerdo da tela */
@@ -148,6 +147,16 @@ em {
     height: 100%; /* Altura total */
     text-align: center;
     background-color: white; /* Cor de fundo */
+    z-index: 10; /* Garante que fique acima de outros elementos */
+}
+
+#ar-screen {
+    position: fixed; /* Use 'fixed' para ocupar a tela inteira */
+    top: 0; /* Inicia do topo da tela */
+    left: 0; /* Inicia do lado esquerdo da tela */
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    text-align: center;
     z-index: 10; /* Garante que fique acima de outros elementos */
 }
 
