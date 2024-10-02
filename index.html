@@ -102,7 +102,7 @@
 			// Esconde todas as telas e mostra a tela AR
 			document.getElementById('start-screen').style.display = 'none';
 			document.getElementById('product-selection-screen').style.display = 'none';
-			document.getElementById('ar-screen').style.display = 'block';
+			document.getElementById('ar-screen').style.display = 'block'; // Certifique-se de que a tela AR esteja visível
 
 			// Configuração da cena
 			scene = new THREE.Scene();
@@ -139,7 +139,7 @@
 				// Configurar retícula (reticle) para exibir onde o modelo será colocado
 				reticle = new THREE.Mesh(
 					new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2),
-					new THREE.MeshBasicMaterial({ color: 0x0fff00 })
+					new THREE.MeshBasicMaterial({ color: 0xffffff })
 				);
 				reticle.matrixAutoUpdate = false;
 				reticle.visible = false;
@@ -166,6 +166,10 @@
 			function onSessionEnded() {
 				currentSession.removeEventListener('end', onSessionEnded);
 				currentSession = null;
+
+				// Aqui você pode adicionar a lógica para mostrar os botões novamente, se necessário
+				document.getElementById('ar-screen').style.display = 'none'; // Esconder tela AR
+				document.getElementById('product-selection-screen').style.display = 'block'; // Mostrar tela de seleção de produtos
 			}
 
 			// Função para processar a seleção e posicionar o modelo
