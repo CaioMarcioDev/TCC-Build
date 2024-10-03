@@ -205,6 +205,10 @@
 				}
 			}
 
+			if (instantiatedObject) {
+        		instantiatedObject.rotateY(0.01); // Rotaciona lentamente no eixo Y
+    		}
+
 			renderer.render(scene, camera);
 		}
 
