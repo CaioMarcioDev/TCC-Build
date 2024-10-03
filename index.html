@@ -48,16 +48,20 @@
 		</button>
 	</div>
 
+	<div class="gif-container"
+		style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
+		<img id="scan-gif" src="assets/images/scan.gif" alt="Scanning GIF">
+	</div>
 
 	<script type="importmap">
-			{
-				"imports": {
-					"three": "./build/three.module.js",
-					"three/addons/": "./jsm/",
-					"three/addons/loaders/GLTFLoader.js": "./jsm/loaders/GLTFLoader.js"
-				}
+		{
+			"imports": {
+				"three": "./build/three.module.js",
+				"three/addons/": "./jsm/",
+				"three/addons/loaders/GLTFLoader.js": "./jsm/loaders/GLTFLoader.js"
 			}
-		</script>
+		}
+	</script>
 
 	<script type="module">
 
@@ -103,6 +107,9 @@
 			document.getElementById('start-screen').style.display = 'none';
 			document.getElementById('product-selection-screen').style.display = 'none';
 			document.getElementById('ar-screen').style.display = 'block'; // Certifique-se de que a tela AR esteja visível
+
+			// Exibe o GIF de escaneamento
+			showScanningGif();
 
 			// Configuração da cena
 			scene = new THREE.Scene();
@@ -218,7 +225,7 @@
 			}
 
 			// Iniciar a sessão AR diretamente
-			navigator.xr.requestSession('immersive-ar', { requiredFeatures: ['hit-test'] })
+			navigator.xr.requestSession('immersive-ar', { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('overlay') }})
 				.then(onSessionStarted)
 				.catch((error) => {
 					console.error('Erro ao iniciar a sessão de AR:', error);
@@ -231,6 +238,21 @@
 			camera.aspect = window.innerWidth / window.innerHeight;
 			camera.updateProjectionMatrix();
 			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		function showScanningGif() {
+			// Exibe o GIF centralizado na tela
+			const gifContainer = document.querySelector('.gif-container');
+			gifContainer.style.display = 'block';
+
+			// Recarrega o GIF para garantir que ele seja reiniciado
+			const gifElement = document.getElementById('scan-gif');
+			gifElement.src = 'assets/images/scan.gif?a=' + Math.random();
+
+			// Remove o GIF após 2 segundos (tempo ajustável)
+			setTimeout(() => {
+				gifContainer.style.display = 'none';
+			}, 10000);
 		}
 
 	</script>
