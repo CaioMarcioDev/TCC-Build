@@ -76,6 +76,8 @@
 		let hitTestSource = null;
 		let hitTestSourceRequested = false;
 		let instantiatedObjects = [];
+		let productMesh = null;
+		let currentSession = null;
 
 		init();
 
@@ -100,22 +102,22 @@
 		}
 
 		function endARSession() {
-   			if (currentSession) {
-        		currentSession.end(); // Encerra a sessão AR
-    		}
+			if (currentSession) {
+				currentSession.end(); // Encerra a sessão AR
+			}
 
-    		document.getElementById('start-screen').style.display = 'none';
-    		document.getElementById('product-selection-screen').style.display = 'block'; // Volta para a tela de seleção de produtos
+			document.getElementById('start-screen').style.display = 'none';
+			document.getElementById('product-selection-screen').style.display = 'block'; // Volta para a tela de seleção de produtos
 			document.getElementById('ar-screen').style.display = 'none';
 		}
 
 		function resetAR() {
 			instantiatedObjects.forEach((obj) => {
-        		scene.remove(obj); // Remove cada objeto da cena
-        		obj.geometry.dispose(); // Limpa a geometria do objeto
-        		obj.material.dispose(); // Limpa o material do objeto
-    		});
-    		instantiatedObjects = []; // Limpa a lista de objetos instanciados
+				scene.remove(obj); // Remove cada objeto da cena
+				obj.geometry.dispose(); // Limpa a geometria do objeto
+				obj.material.dispose(); // Limpa o material do objeto
+			});
+			instantiatedObjects = []; // Limpa a lista de objetos instanciados
 		}
 
 		function startAR(modelPath) {
@@ -138,70 +140,8 @@
 			renderer.xr.enabled = true;
 			document.body.appendChild(renderer.domElement);
 
-			let currentSession = null;
-			let hitTestSource = null;
-			let hitTestSourceRequested = false;
-
-			// Função para iniciar a sessão AR
-			function onSessionStarted(session) {
-				session.addEventListener('end', onSessionEnded);
-
-				renderer.xr.setReferenceSpaceType('local');
-				renderer.xr.setSession(session);
-
-				currentSession = session;
-
-				// Adicionar o controlador para selecionar e posicionar o modelo
-				const controller = renderer.xr.getController(0);
-				controller.addEventListener('select', onSelect);
-				scene.add(controller);
-
-				// Configurar retícula (reticle) para exibir onde o modelo será colocado
-				reticle = new THREE.Mesh(
-					new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2),
-					new THREE.MeshBasicMaterial({ color: 0xffffff })
-				);
-				reticle.matrixAutoUpdate = false;
-				reticle.visible = false;
-				scene.add(reticle);
-
-				// Solicitar hit-test (teste de colisão com superfícies)
-				session.requestReferenceSpace('viewer').then((referenceSpace) => {
-					session.requestHitTestSource({ space: referenceSpace }).then((source) => {
-						hitTestSource = source;
-					});
-				});
-
-				session.addEventListener('end', () => {
-					hitTestSourceRequested = false;
-					hitTestSource = null;
-				});
-
-				hitTestSourceRequested = true;
-				renderer.setAnimationLoop(animate);
-			}
-
-			// Função para finalizar a sessão AR
-			function onSessionEnded() {
-				currentSession = null;
-    			document.getElementById('ar-screen').style.display = 'none';
-   				document.getElementById('product-selection-screen').style.display = 'block';
-			}
-
-			// Função para processar a seleção e posicionar o modelo
-			function onSelect() {
-				if (reticle.visible && productMesh) {
-       				const clone = productMesh.clone(); // Clona o modelo
-        			reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
-        			scene.add(clone);
-        			instantiatedObjects.push(clone); // Armazena o objeto instanciado
-					productMesh = null; 
-    			}
-			}
-
 			// Carrega o modelo GLB
 			const loader = new GLTFLoader();
-			let productMesh = null;
 
 			loader.load(modelPath, function (gltf) {
 				productMesh = gltf.scene;
@@ -210,46 +150,103 @@
 				console.error('Erro ao carregar o modelo:', error);
 			});
 
-			// Função de animação
-			function animate(timestamp, frame) {
-				if (frame) {
-					const referenceSpace = renderer.xr.getReferenceSpace();
-
-					if (hitTestSource) {
-						const hitTestResults = frame.getHitTestResults(hitTestSource);
-
-						if (hitTestResults.length > 0) {
-							const hit = hitTestResults[0];
-							reticle.visible = true;
-
-							const hitPose = hit.getPose(referenceSpace);
-							if (hitPose) {
-								reticle.matrix.fromArray(hitPose.transform.matrix);
-							}
-
-							hideScanningGif();
-						} else {
-							reticle.visible = false;
-							showScanningGif();
-						}
-					}
-				}
-
-				renderer.render(scene, camera);
-			}
-
 			// Iniciar a sessão AR diretamente
-			navigator.xr.requestSession('immersive-ar', { 
-				requiredFeatures: ['hit-test'], 
-				optionalFeatures: ['dom-overlay'], 
+			navigator.xr.requestSession('immersive-ar', {
+				requiredFeatures: ['hit-test'],
+				optionalFeatures: ['dom-overlay'],
 				domOverlay: { root: document.getElementById('overlay') }
 			})
-			.then(onSessionStarted)
-			.catch((error) => {
-				console.error('Erro ao iniciar a sessão de AR:', error);
-			});
+				.then(onSessionStarted)
+				.catch((error) => {
+					console.error('Erro ao iniciar a sessão de AR:', error);
+				});
 
 			window.addEventListener('resize', onWindowResize);
+		}
+
+		// Função de animação
+		function animate(timestamp, frame) {
+			if (frame) {
+				const referenceSpace = renderer.xr.getReferenceSpace();
+
+				if (hitTestSource) {
+					const hitTestResults = frame.getHitTestResults(hitTestSource);
+
+					if (hitTestResults.length > 0) {
+						const hit = hitTestResults[0];
+						reticle.visible = true;
+
+						const hitPose = hit.getPose(referenceSpace);
+						if (hitPose) {
+							reticle.matrix.fromArray(hitPose.transform.matrix);
+						}
+
+						hideScanningGif();
+					} else {
+						reticle.visible = false;
+						showScanningGif();
+					}
+				}
+			}
+
+			renderer.render(scene, camera);
+		}
+
+		// Função para iniciar a sessão AR
+		function onSessionStarted(session) {
+			session.addEventListener('end', onSessionEnded);
+
+			renderer.xr.setReferenceSpaceType('local');
+			renderer.xr.setSession(session);
+
+			currentSession = session;
+
+			// Adicionar o controlador para selecionar e posicionar o modelo
+			const controller = renderer.xr.getController(0);
+			controller.addEventListener('select', onSelect);
+			scene.add(controller);
+
+			// Configurar retícula (reticle) para exibir onde o modelo será colocado
+			reticle = new THREE.Mesh(
+				new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2),
+				new THREE.MeshBasicMaterial({ color: 0xffffff })
+			);
+			reticle.matrixAutoUpdate = false;
+			reticle.visible = false;
+			scene.add(reticle);
+
+			// Solicitar hit-test (teste de colisão com superfícies)
+			session.requestReferenceSpace('viewer').then((referenceSpace) => {
+				session.requestHitTestSource({ space: referenceSpace }).then((source) => {
+					hitTestSource = source;
+				});
+			});
+
+			session.addEventListener('end', () => {
+				hitTestSourceRequested = false;
+				hitTestSource = null;
+			});
+
+			hitTestSourceRequested = true;
+			renderer.setAnimationLoop(animate);
+		}
+
+		// Função para finalizar a sessão AR
+		function onSessionEnded() {
+			currentSession = null;
+			document.getElementById('ar-screen').style.display = 'none';
+			document.getElementById('product-selection-screen').style.display = 'block';
+		}
+
+		// Função para processar a seleção e posicionar o modelo
+		function onSelect() {
+			if (reticle.visible && productMesh) {
+				const clone = productMesh.clone(); // Clona o modelo
+				reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
+				scene.add(clone);
+				instantiatedObjects.push(clone); // Armazena o objeto instanciado
+				productMesh = null;
+			}
 		}
 
 		function onWindowResize() {
@@ -267,12 +264,11 @@
 		function hideScanningGif() {
 			// Esconde o GIF de escaneamento
 			const gifContainer = document.getElementById('scan-gif-container');
-    		gifContainer.style.display = 'none';
+			gifContainer.style.display = 'none';
 		}
 
 	</script>
 
 	<script src="pagination.js"></script>
 </body>
-
 </html>
