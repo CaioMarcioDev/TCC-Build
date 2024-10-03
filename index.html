@@ -47,6 +47,9 @@
 			<button id="reset-button">
 				<img src="assets/images/reset_button.png" alt="Reset" style="width: 32px; height: auto;">
 			</button>
+			<div id="scan-gif-container" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9;">
+				<img id="scan-gif" src="assets/images/scan.gif" alt="Scanning GIF">
+			</div>
 		</div>
 	</div>
 
@@ -222,8 +225,8 @@
 						if (hitTestResults.length > 0) {
 							const hit = hitTestResults[0];
 							reticle.visible = true;
-							const hitPose = hit.getPose(referenceSpace);
 
+							const hitPose = hit.getPose(referenceSpace);
 							if (hitPose) {
 								reticle.matrix.fromArray(hitPose.transform.matrix);
 							}
@@ -261,17 +264,13 @@
 
 		function showScanningGif() {
 			// Exibe o GIF centralizado na tela
-			const gifContainer = document.querySelector('.gif-container');
+			const gifContainer = document.getElementById('scan-gif-container');
 			gifContainer.style.display = 'block';
-
-			// Recarrega o GIF para garantir que ele seja reiniciado
-			const gifElement = document.getElementById('scan-gif');
-			gifElement.src = 'assets/images/scan.gif?a=' + Math.random();
 		}
 
 		function hideScanningGif() {
 			// Esconde o GIF de escaneamento
-			const gifContainer = document.querySelector('.gif-container');
+			const gifContainer = document.getElementById('scan-gif-container');
     		gifContainer.style.display = 'none';
 		}
 
