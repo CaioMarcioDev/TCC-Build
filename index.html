@@ -75,7 +75,7 @@
 		let reticle;
 		let hitTestSource = null;
 		let hitTestSourceRequested = false;
-		let instantiatedObjects = [];
+		let instantiatedObject;
 		let productMesh = null;
 		let currentSession = null;
 
@@ -112,10 +112,8 @@
 		}
 
 		function resetAR() {
-			instantiatedObjects.forEach((obj) => {
-				scene.remove(obj.mesh); // Remove cada objeto da cena
-			});
-			instantiatedObjects = []; // Limpa a lista de objetos instanciados
+			scene.remove(instantiatedObject.mesh);
+			instantiatedObject = null; // Limpa a lista de objetos instanciados
 			renderer.renderLists.dispose();
 		}
 
@@ -242,8 +240,13 @@
 			if (reticle.visible && productMesh) {
 				const clone = productMesh.clone(); // Clona o modelo
 				reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
-				scene.add(clone);
-				instantiatedObjects.push(clone); // Armazena o objeto instanciado
+				
+				if (instantiatedObject) {
+					resetAR();
+				}
+				
+				instantiatedObject = clone;
+				scene.add(instantiatedObject);
 			}
 		}
 
