@@ -77,13 +77,14 @@
 		let reticle;
 		let hitTestSource = null;
 		let hitTestSourceRequested = false;
+		let instantiatedObjects = [];
 
 		init();
 
 		function init() {
 			document.getElementById('start-button').addEventListener('click', showProductSelectionScreen);
 			document.getElementById('back-button').addEventListener('click', showStartScreen);
-			document.getElementById('back-button-2').addEventListener('click', showProductSelectionScreen);
+			document.getElementById('back-button-2').addEventListener('click', endARSession);
 			document.getElementById('product-button').addEventListener('click', () => startAR(productImages[currentPage].model));
 			document.getElementById('reset-button').addEventListener('click', resetAR);
 		}
@@ -100,8 +101,23 @@
 			document.getElementById('ar-screen').style.display = 'none';
 		}
 
-		function resetAR() {
+		function endARSession() {
+   			if (currentSession) {
+        		currentSession.end(); // Encerra a sessão AR
+    		}
 
+    		document.getElementById('start-screen').style.display = 'none';
+    		document.getElementById('product-selection-screen').style.display = 'block'; // Volta para a tela de seleção de produtos
+			document.getElementById('ar-screen').style.display = 'none';
+		}
+
+		function resetAR() {
+			instantiatedObjects.forEach((obj) => {
+        		scene.remove(obj); // Remove cada objeto da cena
+        		obj.geometry.dispose(); // Limpa a geometria do objeto
+        		obj.material.dispose(); // Limpa o material do objeto
+    		});
+    		instantiatedObjects = []; // Limpa a lista de objetos instanciados
 		}
 
 		function startAR(modelPath) {
@@ -109,9 +125,6 @@
 			document.getElementById('start-screen').style.display = 'none';
 			document.getElementById('product-selection-screen').style.display = 'none';
 			document.getElementById('ar-screen').style.display = 'block'; // Certifique-se de que a tela AR esteja visível
-
-			// Exibe o GIF de escaneamento
-			showScanningGif();
 
 			// Configuração da cena
 			scene = new THREE.Scene();
@@ -167,27 +180,24 @@
 				});
 
 				hitTestSourceRequested = true;
-
 				renderer.setAnimationLoop(animate);
 			}
 
 			// Função para finalizar a sessão AR
 			function onSessionEnded() {
-				currentSession.removeEventListener('end', onSessionEnded);
 				currentSession = null;
-
-				// Aqui você pode adicionar a lógica para mostrar os botões novamente, se necessário
-				document.getElementById('ar-screen').style.display = 'none'; // Esconder tela AR
-				document.getElementById('product-selection-screen').style.display = 'block'; // Mostrar tela de seleção de produtos
+    			document.getElementById('ar-screen').style.display = 'none';
+   				document.getElementById('product-selection-screen').style.display = 'block';
 			}
 
 			// Função para processar a seleção e posicionar o modelo
 			function onSelect() {
 				if (reticle.visible && productMesh) {
-					const clone = productMesh.clone(); // Clona o modelo para instanciá-lo na retícula
-					reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
-					scene.add(clone);
-				}
+       				const clone = productMesh.clone(); // Clona o modelo
+        			reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
+        			scene.add(clone);
+        			instantiatedObjects.push(clone); // Armazena o objeto instanciado
+    			}
 			}
 
 			// Carrega o modelo GLB
@@ -217,8 +227,11 @@
 							if (hitPose) {
 								reticle.matrix.fromArray(hitPose.transform.matrix);
 							}
+
+							hideScanningGif();
 						} else {
 							reticle.visible = false;
+							showScanningGif();
 						}
 					}
 				}
@@ -254,11 +267,12 @@
 			// Recarrega o GIF para garantir que ele seja reiniciado
 			const gifElement = document.getElementById('scan-gif');
 			gifElement.src = 'assets/images/scan.gif?a=' + Math.random();
+		}
 
-			// Remove o GIF após 2 segundos (tempo ajustável)
-			setTimeout(() => {
-				gifContainer.style.display = 'none';
-			}, 10000);
+		function hideScanningGif() {
+			// Esconde o GIF de escaneamento
+			const gifContainer = document.querySelector('.gif-container');
+    		gifContainer.style.display = 'none';
 		}
 
 	</script>
