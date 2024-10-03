@@ -47,15 +47,10 @@
 			<button id="reset-button">
 				<img src="assets/images/reset_button.png" alt="Reset" style="width: 32px; height: auto;">
 			</button>
-			<div id="scan-gif-container" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9;">
+			<div id="scan-gif-container">
 				<img id="scan-gif" src="assets/images/scan.gif" alt="Scanning GIF">
 			</div>
 		</div>
-	</div>
-
-	<div class="gif-container"
-		style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
-		<img id="scan-gif" src="assets/images/scan.gif" alt="Scanning GIF">
 	</div>
 
 	<script type="importmap">
@@ -200,6 +195,7 @@
         			reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
         			scene.add(clone);
         			instantiatedObjects.push(clone); // Armazena o objeto instanciado
+					productMesh = null; 
     			}
 			}
 
