@@ -125,9 +125,9 @@
 			if (instantiatedObject) {
 				scene.remove(instantiatedObject);
 				instantiatedObject = null;
-				reticle.visible = true; // Faz a retícula reaparecer para uma nova instância
-        		controller.addEventListener('select', onSelect); // Reativa o controlador para permitir uma nova seleção
 				renderer.renderLists.dispose();
+				reticle.visible = false;
+        		controller.addEventListener('select', onSelect); // Reativa o controlador para permitir uma nova seleção
 			}	
 		}
 
@@ -177,7 +177,7 @@
 
 		// Função de animação
 		function animate(timestamp, frame) {
-			if (frame) {
+			if (frame && !instantiatedObject) {
 				const referenceSpace = renderer.xr.getReferenceSpace();
 
 				if (hitTestSource) {
