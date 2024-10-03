@@ -328,8 +328,11 @@ em {
     position: fixed; 
     top: 50%; 
     left: 50%; 
-    width: 20px;
-    height: auto;
     transform: translate(-50%, -50%); 
     z-index: 10;
+}
+
+#scan-gif {
+    width: 18px; /* Define o tamanho da imagem para aproximadamente 18px */
+    height: auto; /* Mantém a proporção da imagem */
 }
