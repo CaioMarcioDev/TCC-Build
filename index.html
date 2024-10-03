@@ -113,9 +113,11 @@
 		}
 
 		function resetAR() {
-			scene.remove(instantiatedObject.mesh);
-			instantiatedObject = null; // Limpa a lista de objetos instanciados
-			renderer.renderLists.dispose();
+			if (instantiatedObject) {
+				scene.remove(instantiatedObject);
+				instantiatedObject = null;
+				renderer.renderLists.dispose();
+			}	
 		}
 
 		function startAR(modelPath) {
