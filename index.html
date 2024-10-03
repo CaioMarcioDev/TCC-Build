@@ -105,6 +105,7 @@
 		function endARSession() {
 			if (currentSession) {
 				currentSession.end(); // Encerra a sessão AR
+				resetARBack();
 			}
 
 			document.getElementById('start-screen').style.display = 'none';
@@ -112,10 +113,20 @@
 			document.getElementById('ar-screen').style.display = 'none';
 		}
 
+		function resetARBack() {
+			if (instantiatedObject) {
+				scene.remove(instantiatedObject);
+				instantiatedObject = null;
+				renderer.renderLists.dispose();
+			}	
+		}
+
 		function resetAR() {
 			if (instantiatedObject) {
 				scene.remove(instantiatedObject);
 				instantiatedObject = null;
+				reticle.visible = true; // Faz a retícula reaparecer para uma nova instância
+        		controller.addEventListener('select', onSelect); // Reativa o controlador para permitir uma nova seleção
 				renderer.renderLists.dispose();
 			}	
 		}
@@ -184,7 +195,10 @@
 						hideScanningGif();
 					} else {
 						reticle.visible = false;
-						showScanningGif();
+
+						if (!instantiatedObject) {
+							showScanningGif();
+						}
 					}
 				}
 			}
@@ -241,15 +255,16 @@
 		// Função para processar a seleção e posicionar o modelo
 		function onSelect() {
 			if (reticle.visible && productMesh) {
+				if (instantiatedObject) return; // Impede múltiplos objetos
+				
 				const clone = productMesh.clone(); // Clona o modelo
 				reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
 				
-				if (instantiatedObject) {
-					resetAR();
-				}
-				
 				instantiatedObject = clone;
 				scene.add(instantiatedObject);
+
+				reticle.visible = false; // Esconde a retícula após instanciar
+				controller.removeEventListener('select', onSelect); // Desativa o controlador
 			}
 		}
 
