@@ -118,7 +118,7 @@
 				scene.remove(instantiatedObject);
 				instantiatedObject = null;
 				renderer.renderLists.dispose();
-			}	
+			}
 		}
 
 		function resetAR() {
@@ -127,8 +127,10 @@
 				instantiatedObject = null;
 				renderer.renderLists.dispose();
 				reticle.visible = false;
-        		controller.addEventListener('select', onSelect); // Reativa o controlador para permitir uma nova seleção
-			}	
+				setTimeout(() => {
+					controller.addEventListener('select', onSelect);
+				}, 1500); // Reativa o controlador para permitir uma nova seleção
+			}
 		}
 
 		function startAR(modelPath) {
@@ -256,10 +258,10 @@
 		function onSelect() {
 			if (reticle.visible && productMesh) {
 				if (instantiatedObject) return; // Impede múltiplos objetos
-				
+
 				const clone = productMesh.clone(); // Clona o modelo
 				reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
-				
+
 				instantiatedObject = clone;
 				scene.add(instantiatedObject);
 
@@ -290,4 +292,5 @@
 
 	<script src="pagination.js"></script>
 </body>
+
 </html>
