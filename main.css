@@ -334,18 +334,16 @@ em {
 }
 
 #scan-gif {
-    width: 300px; /* Define o tamanho da imagem para aproximadamente 18px */
+    width: 250px; /* Define o tamanho da imagem para aproximadamente 18px */
     height: auto; /* Mantém a proporção da imagem */
 }
 
 #scan-text {
-    position: absolute;
-    bottom: 10px; /* Ajusta a distância do texto da parte inferior do container */
-    left: 50%;
-    transform: translateX(-50%);
-    color: white; /* Cor do texto */
-    font-size: 16px; /* Tamanho da fonte */
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente para o texto */
-    padding: 5px;
-    border-radius: 5px;
+    margin-top: 50px; /* Distância entre o GIF e o texto */
+    color: white;
+    font-size: 18px; /* Aumentei o tamanho da fonte */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    padding: 10px; /* Aumentei o padding para uma caixa de texto maior */
+    border-radius: 8px; /* Aumentei o raio para cantos mais suaves */
+    display: inline-block;
 }
