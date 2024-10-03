@@ -113,11 +113,10 @@
 
 		function resetAR() {
 			instantiatedObjects.forEach((obj) => {
-				scene.remove(obj); // Remove cada objeto da cena
-				obj.geometry.dispose(); // Limpa a geometria do objeto
-				obj.material.dispose(); // Limpa o material do objeto
+				scene.remove(obj.mesh); // Remove cada objeto da cena
 			});
 			instantiatedObjects = []; // Limpa a lista de objetos instanciados
+			renderer.renderLists.dispose();
 		}
 
 		function startAR(modelPath) {
