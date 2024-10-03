@@ -328,11 +328,24 @@ em {
     position: fixed; 
     top: 50%; 
     left: 50%; 
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
+    text-align: center; 
     z-index: 10;
 }
 
 #scan-gif {
-    width: 18px; /* Define o tamanho da imagem para aproximadamente 18px */
+    width: 300px; /* Define o tamanho da imagem para aproximadamente 18px */
     height: auto; /* Mantém a proporção da imagem */
+}
+
+#scan-text {
+    position: absolute;
+    bottom: 10px; /* Ajusta a distância do texto da parte inferior do container */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white; /* Cor do texto */
+    font-size: 16px; /* Tamanho da fonte */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente para o texto */
+    padding: 5px;
+    border-radius: 5px;
 }
