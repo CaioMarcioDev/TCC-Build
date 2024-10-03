@@ -1,9 +1,9 @@
 const productImages = [
-    { image: 'assets/images/cadeira-garca.png', name: 'Cadeira Garça', model: 'assets/models/poltrona_lacuna.glb' },
-    { image: 'assets/images/cadeira-trapezio.png', name: 'Cadeira Trapézio', model: 'assets/models/poltrona_lacuna.glb' },
-    { image: 'assets/images/poltrona-bauhaus.png', name: 'Poltrona Bauhaus', model: 'assets/models/poltrona_lacuna.glb' },
-    { image: 'assets/images/poltrona-lacuna.png', name: 'Poltrona Lacuna', model: 'assets/models/poltrona_lacuna.glb' },
-    { image: 'assets/images/poltrona-pollux.png', name: 'Poltrona Pollux', model: 'assets/models/poltrona_lacuna.glb' }
+    { image: 'assets/images/cadeira-garca.png', name: 'Poltrona Lacuna', model: 'assets/models/poltrona_lacuna.glb' },
+    { image: 'assets/images/cadeira-trapezio.png', name: 'Cadeira Girafa', model: 'assets/models/cadeira_girafa.glb' },
+    { image: 'assets/images/poltrona-bauhaus.png', name: 'Espelho Nexo', model: 'assets/models/espelho_nexo.glb' },
+    { image: 'assets/images/poltrona-lacuna.png', name: 'Poltrona Bauhaus', model: 'assets/models/poltrona_bauhaus.glb' },
+    { image: 'assets/images/poltrona-pollux.png', name: 'Poltrona Pollux', model: 'assets/models/poltrona_pollux.glb' }
 ];
 
 let currentPage = 0;
