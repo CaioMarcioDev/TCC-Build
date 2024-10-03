@@ -40,14 +40,16 @@
 
 	<!-- Tela AR que será ativada após selecionar um produto -->
 	<div id="ar-screen" style="display: none;">
-		<button id="back-button-2">
-			<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
-		</button>
-		<button id="reset-button">
-			<img src="assets/images/reset_button.png" alt="Reset" style="width: 32px; height: auto;">
-		</button>
-		<div id="scan-gif-container">
-			<img id="scan-gif" src="assets/images/scan.gif" alt="Scanning GIF">
+		<div id="overlay" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+			<button id="back-button-2">
+				<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
+			</button>
+			<button id="reset-button">
+				<img src="assets/images/reset_button.png" alt="Reset" style="width: 32px; height: auto;">
+			</button>
+			<div id="scan-gif-container">
+				<img id="scan-gif" src="assets/images/scan.gif" alt="Scanning GIF">
+			</div>
 		</div>
 	</div>
 
