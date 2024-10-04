@@ -67,7 +67,7 @@
 		import * as THREE from 'three';
 		import { ARButton } from 'three/addons/webxr/ARButton.js';
 		import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
+	
 		let container;
 		let camera, scene, renderer;
 		let controller;
@@ -77,39 +77,39 @@
 		let instantiatedObject;
 		let productMesh = null;
 		let currentSession = null;
-
+	
 		init();
-
+	
 		function init() {
 			document.getElementById('start-button').addEventListener('click', showProductSelectionScreen);
 			document.getElementById('back-button').addEventListener('click', endARSession);
 			document.getElementById('product-button').addEventListener('click', () => startAR(productImages[currentPage].model));
 			document.getElementById('reset-button').addEventListener('click', resetAR);
 		}
-
+	
 		function showStartScreen() {
 			document.getElementById('start-screen').style.display = 'block';
 			document.getElementById('product-selection-screen').style.display = 'none';
 			document.getElementById('ar-screen').style.display = 'none';
 		}
-
+	
 		function showProductSelectionScreen() {
 			document.getElementById('start-screen').style.display = 'none';
 			document.getElementById('product-selection-screen').style.display = 'block';
 			document.getElementById('ar-screen').style.display = 'none';
 		}
-
+	
 		function endARSession() {
 			if (currentSession) {
-				currentSession.end(); // Encerra a sessão AR
+				currentSession.end();
 				resetARBack();
 			}
-
+	
 			document.getElementById('start-screen').style.display = 'none';
-			document.getElementById('product-selection-screen').style.display = 'block'; // Volta para a tela de seleção de produtos
+			document.getElementById('product-selection-screen').style.display = 'block';
 			document.getElementById('ar-screen').style.display = 'none';
 		}
-
+	
 		function resetARBack() {
 			if (instantiatedObject) {
 				scene.remove(instantiatedObject);
@@ -126,40 +126,69 @@
 				reticle.visible = false;
 				setTimeout(() => {
 					controller.addEventListener('select', onSelect);
-				}, 1500); // Reativa o controlador para permitir uma nova seleção
+				}, 1500);
 			}
 		}
-
+	
 		function startAR(modelPath) {
 			// Esconde todas as telas e mostra a tela AR
 			document.getElementById('start-screen').style.display = 'none';
 			document.getElementById('product-selection-screen').style.display = 'none';
-			document.getElementById('ar-screen').style.display = 'block'; // Certifique-se de que a tela AR esteja visível
-
+			document.getElementById('ar-screen').style.display = 'block';
+	
 			// Configuração da cena
 			scene = new THREE.Scene();
 			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
-
-			const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 3);
-			light.position.set(0.5, 1, 0.25);
-			scene.add(light);
-
+	
+			// Adiciona luz ambiente suave
+			const ambientLight = new THREE.AmbientLight(0x404040); // Luz ambiente fraca
+			scene.add(ambientLight);
+	
+			// Luz direcional para sombras
+			const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+			directionalLight.position.set(10, 10, 10);
+			directionalLight.castShadow = true; // Habilita sombras
+			scene.add(directionalLight);
+	
+			// Adiciona uma luz hemisférica (cor do céu e cor da terra)
+			const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 3);
+			hemisphereLight.position.set(0.5, 1, 0.25);
+			scene.add(hemisphereLight);
+	
+			// Configuração do renderizador
 			renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 			renderer.setPixelRatio(window.devicePixelRatio);
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			renderer.xr.enabled = true;
+			renderer.shadowMap.enabled = true;  // Ativa sombras
 			document.body.appendChild(renderer.domElement);
-
+	
 			// Carrega o modelo GLB
 			const loader = new GLTFLoader();
-
+	
 			loader.load(modelPath, function (gltf) {
 				productMesh = gltf.scene;
 				productMesh.scale.set(0.1, 0.1, 0.1); // Ajuste o tamanho do modelo conforme necessário
+				productMesh.traverse(function (child) {
+					if (child.isMesh) {
+						// Aplique o material PBR com normalMap e texturas
+						child.castShadow = true;  // Ativa sombras para o objeto
+						child.receiveShadow = true;
+	
+						// Criação do material físico com propriedades PBR
+						child.material = new THREE.MeshStandardMaterial({
+							color: 0xffffff,  // Cor base
+							roughness: 0.5,   // Defina o quão fosco ou polido será o objeto
+							metalness: 0.3,   // Grau de metalicidade
+							map: texture,     // Adicione sua textura difusa aqui
+							normalMap: normalTexture // Adicione o normal map para detalhes de relevo
+						});
+					}
+				});
 			}, undefined, function (error) {
 				console.error('Erro ao carregar o modelo:', error);
 			});
-
+	
 			// Iniciar a sessão AR diretamente
 			navigator.xr.requestSession('immersive-ar', {
 				requiredFeatures: ['hit-test'],
