@@ -110,8 +110,36 @@
     font-style: italic;
 }
 
+@font-face {
+    font-family: 'Oswald';
+    src: url('assets/fonts/Oswald-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('assets/fonts/Oswald-Medium.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('assets/fonts/Oswald-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('assets/fonts/Oswald-SemiBold.ttf') format('truetype');
+    font-weight: 600; /* Semibold */
+    font-style: normal;
+}
+
 body {
-    font-family: 'Minion3', sans-serif; /* Define a fonte padrão */
+    font-family: 'LibreBodoni', sans-serif; /* Define a fonte padrão */
 }
 
 h1 {
@@ -146,7 +174,7 @@ em {
     width: 100%; /* Largura total */
     height: 100%; /* Altura total */
     text-align: center;
-    background-color: white; /* Cor de fundo */
+    background-color: #ffffff; /* Cor de fundo */
     z-index: 10; /* Garante que fique acima de outros elementos */
 }
 
@@ -162,10 +190,12 @@ em {
 
 #start-button {
     position: absolute; /* Para permitir o posicionamento absoluto */
-    bottom: 15%; /* 20% acima da parte inferior da tela */
+    bottom: 90px; /* 20% acima da parte inferior da tela */
     left: 50%; /* Centraliza horizontalmente */
     transform: translateX(-50%); /* Ajusta a posição para o centro */
-    padding: 10px 20px; /* Espaçamento interno do botão */
+    padding: 15px 60px; /* Espaçamento interno do botão */
+    font-family: 'LibreBodoni', sans-serif;
+    font-style: italic;
     font-size: 18px; /* Tamanho da fonte */
     color: #fff; /* Cor da fonte (branca) */
     background-color: #000; /* Cor de fundo (preto) */
@@ -275,37 +305,61 @@ em {
     top: 65%; /* Ajuste conforme necessário para a posição abaixo da logo */
     left: 50%;
     transform: translate(-50%, -50%); /* Centraliza horizontalmente */
-    font-family: 'Minion3', sans-serif; /* Use a fonte que você definiu anteriormente */
+    font-family: 'LibreBodoni', sans-serif;
+    font-style: italic;/* Use a fonte que você definiu anteriormente */
     font-size: 20px; /* Ajuste o tamanho da fonte conforme necessário */
     color: #000; /* Ajuste a cor conforme necessário */
     text-align: center; /* Centraliza o texto */
     z-index: 10; /* Garante que o texto fique acima do conteúdo 3D */
-    white-space: normal; /* Permite quebras de linha */
+    width: 300px; /* Define uma largura maior */
+    height: auto; /* Ajusta a altura conforme o conteúdo */
+    padding: 20px; /* Adiciona espaço interno */
 }
 
 #choose-mobile {
     position: absolute;
-    top: 25px; /* Ajuste conforme necessário para a posição abaixo da logo */
+    top: 100px; /* Ajuste conforme necessário para a posição abaixo da logo */
     left: 50%;
     transform: translate(-50%, -50%); /* Centraliza horizontalmente */
-    font-family: 'Minion3', sans-serif; /* Use a fonte que você definiu anteriormente */
-    font-size: 20px; /* Ajuste o tamanho da fonte conforme necessário */
+    font-family: 'Oswald', sans-serif; /* Use a fonte que você definiu anteriormente */
+    font-size: 32px; /* Ajuste o tamanho da fonte conforme necessário */
     color: #000; /* Ajuste a cor conforme necessário */
     text-align: center; /* Centraliza o texto */
     z-index: 10; /* Garante que o texto fique acima do conteúdo 3D */
-    white-space: normal; /* Permite quebras de linha */
+    width: 300px; /* Define uma largura maior */
+    height: auto; /* Ajusta a altura conforme o conteúdo */
+    padding: 20px; /* Adiciona espaço interno */
 }
 
 #product-name {
     position: absolute;
-    bottom: 20px; /* Ancorado na parte inferior */
+    bottom: 90px; /* Ancorado na parte inferior */
     left: 50%;
     transform: translateX(-50%);
-    font-family: 'Minion3', sans-serif;
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    color: #000;
+    text-align: center;
+    z-index: 10;
+    width: 300px; /* Define uma largura maior */
+    height: auto; /* Ajusta a altura conforme o conteúdo */
+    padding: 20px; /* Adiciona espaço interno */
+}
+
+#product-artist {
+    position: absolute;
+    bottom: 65px; /* Ancorado na parte inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'LibreBodoni', sans-serif;
+    font-style: italic;
     font-size: 20px;
     color: #000;
     text-align: center;
     z-index: 10;
+    width: 300px; /* Define uma largura maior */
+    height: auto; /* Ajusta a altura conforme o conteúdo */
+    padding: 20px; /* Adiciona espaço interno */
 }
 
 #product-button {

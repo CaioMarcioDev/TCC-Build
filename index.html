@@ -20,13 +20,10 @@
 
 	<!-- Tela de seleção de produtos -->
 	<div id="product-selection-screen" style="display: none;">
-		<h2 id="choose-mobile">Escolha o móvel:</h2>
+		<h2 id="choose-mobile">ESCOLHA O MÓVEL:</h2>
 		<button id="product-button">
-			<img id="product-image" src="assets/images/cadeira-garca.png" alt="Product"
+			<img id="product-image" src="assets/images/poltrona_lacuna.png" alt="Product"
 				style="width: 200px; height: auto;">
-		</button>
-		<button id="back-button">
-			<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
 		</button>
 		<button id="next-button">
 			<img src="assets/images/next_button.png" alt="Next" style="width: 32px; height: auto;">
@@ -34,14 +31,15 @@
 		<button id="previous-button">
 			<img src="assets/images/previous_button.png" alt="Previous" style="width: 32px; height: auto;">
 		</button>
-		<h2 id="product-name">Cadeira Garça</h2>
+		<h2 id="product-name">Poltrona Lacuna</h2>
+		<h2 id="product-artist">Claudia Moreira Salles</h2>
 	</div>
 
 
 	<!-- Tela AR que será ativada após selecionar um produto -->
 	<div id="ar-screen" style="display: none;">
 		<div id="overlay" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-			<button id="back-button-2">
+			<button id="back-button">
 				<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
 			</button>
 			<button id="reset-button">
@@ -84,8 +82,7 @@
 
 		function init() {
 			document.getElementById('start-button').addEventListener('click', showProductSelectionScreen);
-			document.getElementById('back-button').addEventListener('click', showStartScreen);
-			document.getElementById('back-button-2').addEventListener('click', endARSession);
+			document.getElementById('back-button').addEventListener('click', endARSession);
 			document.getElementById('product-button').addEventListener('click', () => startAR(productImages[currentPage].model));
 			document.getElementById('reset-button').addEventListener('click', resetAR);
 		}
