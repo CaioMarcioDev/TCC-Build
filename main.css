@@ -292,10 +292,10 @@ em {
 
 #logo-image {
 	position: absolute;
-	top: 10%; /* Coloca a imagem 25% a partir do topo da página */
+	top: 15%; /* Coloca a imagem 25% a partir do topo da página */
 	left: 50%;
 	transform: translate(-50%, 0); /* Centraliza horizontalmente sem afetar a altura */
-	width: 320px; /* Ajuste o tamanho da imagem */
+	width: 250px; /* Ajuste o tamanho da imagem */
 	height: auto;
 	z-index: 10; /* Garante que a imagem fique acima do conteúdo 3D */
 }
