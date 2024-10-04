@@ -1,298 +1,383 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-	<title>Mulheres do Design Imobiliário</title>
-	<script src="https://launchar.app/sdk/v1?key=AgeXTjaf9TLbp75chNzniCVoz4kWWsRD&redirect=true"></script>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<link type="text/css" rel="stylesheet" href="main.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes'>
+    <title>Unity WebGL Player | TCC-Mulheres-no-Design</title>
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="unity.js"></script>
+    
+    <script>
+        function checkIOS()
+        {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            return /iPad|iPhone|iPod/i.test(userAgent);
+        }
+
+        function checkMobile()
+        {
+            let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            // let memory = navigator.deviceMemory||0;
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent) /*&& memory < 8*/;
+        }
+    </script>
+
+    <script>
+        let realDomain = document.domain;
+        realDomain = realDomain.split(".");
+        realDomain.shift();
+        realDomain = realDomain.join(".");
+        console.log("Real Domain: " + realDomain);
+        try { document.domain = "vrglass.com"; } catch (e) { }
+        try { document.domain = "virtual.town"; } catch (e) { }
+        try { document.domain = realDomain } catch (e) { }
+    </script>
+    
+    <style>
+        html{
+            height: -webkit-fill-available;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            width: 100vw;
+            overflow: hidden;
+        }
+        .ctaDiv {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #fffa;
+            z-index: 99;
+        }
+    </style>
 </head>
-
 <body>
-	<!-- Tela inicial -->
-	<div id="start-screen">
-		<img id="logo-image" src="assets/images/logo.png" alt="Imagem Centralizada">
-		<h2 id="ar-experience">Uma experiência em<br>Realidade Aumentada</h2>
-		<button id="start-button">Começar</button>
-	</div>
+    <video id="webcam-video" muted autoplay playsinline style="width:1px;position:absolute"></video>
+    <canvas id="video-canvas" style="width:100%; height:100%; object-fit:cover; position:absolute"></canvas>
+    
+    <div id="unity-container" class="unity-mobile">
+        <canvas id="unity-canvas" style="width: 100%; height: 100%; background: #0000; z-index: -99;"></canvas>
+        <div id="unity-loading-bar">
+            <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="arcamera.js" type="text/javascript"></script>
+    <script src="wtracker.js" type="text/javascript"></script>
+    
+    <script src="Build/build-0410-0742.loader.js"></script>
+    <script>
+        var initialize = async () => {
+            var unityCanvas = document.querySelector("#unity-canvas");
+            var videoCanvas = document.querySelector("#video-canvas");
+            window.arCamera = new ARCamera(unityCanvas, videoCanvas);
+            window.wTracker = new WorldTracker(arCamera);
+            try {
+                await wTracker.initialize("./opencv.js");
+                console.log("World tracker initialized!");
+            } catch (error) {
+                console.error("Failed to initialize world tracker. Are you missing opencv.js?", error);
+                ShowError("Failed to initialize the World Tracker.\n" + error);
+                return;
+            }
 
+            await LoadWebcams();
+            document.getElementById("startARButton").style.display = "block";
+        }
+        
+        var container = document.querySelector("#unity-container");
+        var canvas = document.querySelector("#unity-canvas");
+        var loadingBar = document.querySelector("#unity-loading-bar");
+        var progressBarFull = document.querySelector("#unity-progress-bar-full");
+        
+        function StartAR() {
+            console.log(">>> Start AR");
+            
+            canvas.style.width = window.innerWidth + "px";
+            canvas.style.height = window.innerHeight + "px";
+            
+            try 
+            {
+                document.getElementById('startARDiv').style.display = 'none';
+            }
+            catch (e) { }
+            createUnityInstance(document.querySelector("#unity-canvas"), {
+                    dataUrl: "Build/ae98dcc7fc82eb500fd22331659a4936.data.unityweb",
+                    frameworkUrl: "Build/bb0dd95f303aa997afea051521cad3a6.js.unityweb",
+                    codeUrl: "Build/92d5f84387fa8747ec3d9213a22cf859.wasm.unityweb",
+                    streamingAssetsUrl: "StreamingAssets",
+                    companyName: "PurpleCouchStudios",
+                    productName: "TCC-Mulheres-no-Design",
+                    productVersion: "0.1",
+                    //webglContextAttributes: { "preserveDrawingBuffer": true },
+                    // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+                    // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+                    },
+                    (progress) => {
+                        progressBarFull.style.width = 100 * progress + "%";
+                    }
+                ).then((unityInstance) => {
+                window.unityInstance = unityInstance;
+                ListenToSendMessageEvent();
+                if (checkIOS() || checkMobile())
+                    RequestWebcam();
+                loadingBar.style.display = "none";
+            });
 
-	<!-- Tela de seleção de produtos -->
-	<div id="product-selection-screen" style="display: none;">
-		<h2 id="choose-mobile">ESCOLHA O MÓVEL:</h2>
-		<button id="product-button">
-			<img id="product-image" src="assets/images/poltrona_lacuna.png" alt="Product"
-				style="width: 200px; height: auto;">
-		</button>
-		<button id="next-button">
-			<img src="assets/images/next_button.png" alt="Next" style="width: 32px; height: auto;">
-		</button>
-		<button id="previous-button">
-			<img src="assets/images/previous_button.png" alt="Previous" style="width: 32px; height: auto;">
-		</button>
-		<h2 id="product-name">Poltrona Lacuna</h2>
-		<h2 id="product-artist">Claudia Moreira Salles</h2>
-	</div>
+            if (checkIOS() || checkMobile())
+                StartMotionSensors();
+            loadingBar.style.display = "block";
+        }
 
+        //Set Facing Mode here ('environment', 'user', '')
+		window.unityFacingMode = "environment"
 
-	<!-- Tela AR que será ativada após selecionar um produto -->
-	<div id="ar-screen" style="display: none;">
-		<div id="overlay" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-			<button id="back-button">
-				<img src="assets/images/back_button.png" alt="Back" style="width: 32px; height: auto;">
-			</button>
-			<button id="reset-button">
-				<img src="assets/images/reset_button.png" alt="Reset" style="width: 32px; height: auto;">
-			</button>
-			<div id="scan-gif-container">
-				<img id="scan-gif" src="assets/images/scan.gif" alt="Scanning GIF">
-				<p id="scan-text">Escaneie o chão e as superfícies<br>ao redor de você</p>
-			</div>
-		</div>
-	</div>
+        window.WEBCAM_SETTINGS = {
+            video: {
+                facingMode: unityFacingMode,
+            },
+            audio: true
+        };
+        window.requestingForCameraPermission = false;
+        
+        async function RequestWebcam(){
+            window.requestingForCameraPermission = true;
+            try{
+                window.webcamStream = await navigator.mediaDevices.getUserMedia(window.WEBCAM_SETTINGS);
+                arCamera.setFlipped(window.WEBCAM_SETTINGS.video.facingMode == 'user');
+                
+                console.log("Webcam access granted");
+                requestingForCameraPermission = false;
+            }
+            catch (err) {
+                //user denied camera permission - show error panel
+                console.error("getUserMedia error - " , err);
+                ShowError("Failed to start the experience. Camera permission was denied");
+                window.requestingForCameraPermission = false;
+            }           
+        }
+        
+        async function StartWebcam(){
+            console.log("StartWebcam")
 
-	<script type="importmap">
-		{
-			"imports": {
-				"three": "./build/three.module.js",
-				"three/addons/": "./jsm/",
-				"three/addons/loaders/GLTFLoader.js": "./jsm/loaders/GLTFLoader.js"
-			}
-		}
-	</script>
+            while (window.requestingForCameraPermission) {
+                // Wait until requestingForCameraPermission becomes true.
+                console.log("Waiting for permissions...");
+                await new Promise(resolve => setTimeout(resolve, 100)); // Adjust the delay time as needed.
+            }
 
-	<script type="module">
+            console.log("Got Permissions");
 
-		import * as THREE from 'three';
-		import { ARButton } from 'three/addons/webxr/ARButton.js';
-		import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+            if(window.webcamStream)
+            {
+                const video = document.querySelector("#webcam-video");
+                video.srcObject = webcamStream;
+                try {
+                    await arCamera.startWebcam(video);
+                    console.log("Webcam started successfully");
 
-		let container;
-		let camera, scene, renderer;
-		let controller;
-		let reticle;
-		let hitTestSource = null;
-		let hitTestSourceRequested = false;
-		let instantiatedObject;
-		let productMesh = null;
-		let currentSession = null;
+                    window.unityInstance.SendMessage('ARCamera', 'OnStartWebcamSuccess');
+                }
+                catch(err){
+                    console.error("Webcam failed to start - ", err);
+                    window.unityInstance.SendMessage('ARCamera', 'OnStartWebcamFail');
+                }   
+            }
+            else{
+                console.error("Webcam failed to start - permission not yet granted");
+                window.unityInstance.SendMessage('ARCamera', 'OnStartWebcamFail');
+            }  
+        }
 
-		init();
+        async function LoadWebcams(){
+            let camDevices = [];
+            let devices = await navigator.mediaDevices.enumerateDevices();
+            var ctr = 0;
+            devices.forEach(mediaDevice => {
+                if (mediaDevice.kind === 'videoinput') {
 
-		function init() {
-			document.getElementById('start-button').addEventListener('click', showProductSelectionScreen);
-			document.getElementById('back-button').addEventListener('click', endARSession);
-			document.getElementById('product-button').addEventListener('click', () => startAR(productImages[currentPage].model));
-			document.getElementById('reset-button').addEventListener('click', resetAR);
-		}
+                    if(window.unityFacingMode == 'environment' && !mediaDevice.label.includes('facing front')){
+                        //back cam only
+                        camDevices.push(mediaDevice);
+                    }
+                    else if(window.unityFacingMode == 'user' && mediaDevice.label.includes('facing front')){
+                        //front cam only
+                        camDevices.push(mediaDevice);
+                    }
+                    else{
+                        //back and front
+                        camDevices.push(mediaDevice);
+                        console.log('pushed', mediaDevice);
+                    }   
+                    
+                    ctr++;
+                }
+            });
+            var select = document.getElementById("chooseCamSel");
+            select.style.display = "block";
+            var count = 0;
+            //reverse array because some Android phones can't distinguish front and back cams at first load
+            //and when this happens, most of the time, front cam goes first and back cam goes last
+            camDevices = camDevices.reverse();
+            camDevices.forEach(mediaDevice => {
+                const option = document.createElement('option');
+                option.value = mediaDevice.deviceId;
+                let label = `Camera ${count}`;
+                if (mediaDevice.label) {
+                    label = mediaDevice.label
+                }
+                const textNode = document.createTextNode(label);
+                option.appendChild(textNode);
+                select.appendChild(option);
+                count++;
+            });
+            wTracker.WEBCAM_NAME = select.options[select.selectedIndex].innerHTML;
+        }
+        
+        function SelectCam(){
+            var select = document.getElementById("chooseCamSel");
+            window.deviceId = select.value;
+            window.WEBCAM_SETTINGS.video['deviceId'] = deviceId;
+            //console.log(window.WEBCAM_SETTINGS);
+            wTracker.WEBCAM_NAME = select.options[select.selectedIndex].innerHTML;
+        }
 
-		function showStartScreen() {
-			document.getElementById('start-screen').style.display = 'block';
-			document.getElementById('product-selection-screen').style.display = 'none';
-			document.getElementById('ar-screen').style.display = 'none';
-		}
+        async function FlipCam(){
+            arCamera.stopWebcam();
+            window.WEBCAM_SETTINGS.video.deviceId = '';
 
-		function showProductSelectionScreen() {
-			document.getElementById('start-screen').style.display = 'none';
-			document.getElementById('product-selection-screen').style.display = 'block';
-			document.getElementById('ar-screen').style.display = 'none';
-		}
+            if(window.WEBCAM_SETTINGS.video.facingMode == 'user'){
+                 window.WEBCAM_SETTINGS.video.facingMode = 'environment';
+                arCamera.setFlipped(false);
+            }
+            else{
+                window.WEBCAM_SETTINGS.video.facingMode = 'user';
+                arCamera.setFlipped(true);
+            }
+            window.webcamStream = await navigator.mediaDevices.getUserMedia(window.WEBCAM_SETTINGS);
 
-		function endARSession() {
-			if (currentSession) {
-				currentSession.end(); // Encerra a sessão AR
-				resetARBack();
-			}
+            const video = document.querySelector("#webcam-video");
+            video.srcObject = webcamStream;
 
-			document.getElementById('start-screen').style.display = 'none';
-			document.getElementById('product-selection-screen').style.display = 'block'; // Volta para a tela de seleção de produtos
-			document.getElementById('ar-screen').style.display = 'none';
-		}
+            await arCamera.startWebcam(video);
+        }
 
-		function resetARBack() {
-			if (instantiatedObject) {
-				scene.remove(instantiatedObject);
-				instantiatedObject = null;
-				renderer.renderLists.dispose();
-			}
-		}
+        function StartMotionSensors(){
+            window.wTracker.startAngles()
+            .then(()=>{
+                console.log("Motion sensors started");
+            })
+            .catch(error=>{
+                console.error("Failed to start motion sensors - " + error);
+                ShowError("Failed to start the experience. " + error);
 
-		function resetAR() {
-			if (instantiatedObject) {
-				scene.remove(instantiatedObject);
-				instantiatedObject = null;
-				renderer.renderLists.dispose();
-				reticle.visible = false;
-				setTimeout(() => {
-					controller.addEventListener('select', onSelect);
-				}, 1500); // Reativa o controlador para permitir uma nova seleção
-			}
-		}
+            });
+        }
 
-		function startAR(modelPath) {
-			// Esconde todas as telas e mostra a tela AR
-			document.getElementById('start-screen').style.display = 'none';
-			document.getElementById('product-selection-screen').style.display = 'none';
-			document.getElementById('ar-screen').style.display = 'block'; // Certifique-se de que a tela AR esteja visível
+        function StartGPS(){            
+            window.wTracker.startGPS()
+            .then((pos)=>{
+                console.log("GPS started", pos);
+            })
+            .catch(error=>{
+                console.error("Failed to start GPS - " + error);
+                //ShowError("Failed to start GPS " + error);
+            });
+        }
+        
+        function ShowError(error){
+            document.getElementById("errorDiv").style.display = "flex";
+            document.getElementById("errorText").innerHTML = error;
+        }
 
-			// Configuração da cena
-			scene = new THREE.Scene();
-			camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
+        function ShowScreenshot(dataUrl){
+            document.getElementById("screenshotDiv").style.display = "flex";
+            document.getElementById("screenshotImg").src = dataUrl;
+            document.getElementById("screenshotImg").style.width = "80vw";
+            document.getElementById("screenshotImg").style.height = 80 / window.innerWidth * window.innerHeight + "vw";
+        }
 
-			const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 3);
-			light.position.set(0.5, 1, 0.25);
-			scene.add(light);
+        function SendMessageToUnity(trigger_event, data)
+        {
+            const gameObjectName = "BroadcastManager";
+            if (( window.unityInstance == undefined) || ( window.unityInstance == null)){
+                console.error("UNITY INSTANCE IS UNDEFINED, PLEASE CHECK IF THIS VARIABLE WAS SET PROPERLY");
+                return;
+            }
+            let parsedObject = JSON.stringify( data );
+            window.unityInstance.SendMessage(gameObjectName, trigger_event, parsedObject);
+            if (trigger_event == 'SetBaseData')
+            {
+                start(data.language, data.token);
+            }
+        }
 
-			renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-			renderer.setPixelRatio(window.devicePixelRatio);
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			renderer.xr.enabled = true;
-			document.body.appendChild(renderer.domElement);
+        function ListenToSendMessageEvent()
+        {
+            window.addEventListener("message", (event) => {
+                if (event.data.type==="SendMessageToUnity"){
+                    SendMessageToUnity(event.data.event_type, event.data.unity_data);
+                }
+            });
+        }
 
-			// Carrega o modelo GLB
-			const loader = new GLTFLoader();
+        if (checkIOS() || checkMobile())
+        {
+            let div = document.createElement('div');
+            let html = `<video id="webcam-video" muted autoplay playsinline style="width:1px;position:absolute"></video>
+                <div id="startARDiv" class="ctaDiv">
+                    <select id="chooseCamSel" style="display: none;" onchange="SelectCam()"></select>
+                    <p style="text-align: center; width:60vw">This augmented reality experience requires access to your device's camera and motion sensors</p>
+                    <button id="startARButton" style="display:none" onclick="StartAR()">ALLOW ACCESS</button>
+                </div>
+                <div id="screenshotDiv" style="display: none;" class="ctaDiv">
+                    <div style="position:relative; background-color:white; padding:10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25);">
+                        <img id="screenshotImg" src="" alt="screenshot" style="width:80vw; height:80vh">
+                        <button onclick="document.getElementById('screenshotDiv').style.display = 'none';" style="position:absolute; transform:translateY(-100%); right:0; top:0">Close</button>
+                    </div>
+                </div>
+                <div id="errorDiv" class="ctaDiv" style="display: none; background:#aaa">
+                    <p id="errorText" style="text-align: center; width:60vw; color:white"></p>
+                </div>`;
+            div.innerHTML = html;
+            document.body.insertBefore(div, document.body.firstChild);
 
-			loader.load(modelPath, function (gltf) {
-				productMesh = gltf.scene;
-				productMesh.scale.set(0.1, 0.1, 0.1); // Ajuste o tamanho do modelo conforme necessário
-			}, undefined, function (error) {
-				console.error('Erro ao carregar o modelo:', error);
-			});
+            RequestMediaDevices();
+        }
+        else
+        {
+            console.log('Não é mobile');
+            StartAR();
+        }
 
-			// Iniciar a sessão AR diretamente
-			navigator.xr.requestSession('immersive-ar', {
-				requiredFeatures: ['hit-test'],
-				optionalFeatures: ['dom-overlay'],
-				domOverlay: { root: document.getElementById('overlay') }
-			})
-				.then(onSessionStarted)
-				.catch((error) => {
-					console.error('Erro ao iniciar a sessão de AR:', error);
-				});
+        async function RequestMediaDevices() {
+            try 
+            {
+                window.mediaStream = await navigator.mediaDevices.getUserMedia(window.WEBCAM_SETTINGS);
 
-			window.addEventListener('resize', onWindowResize);
-		}
+                console.log("Acesso ao vídeo e áudio concedido");
+                // Você pode adicionar qualquer manipulação extra necessária aqui
 
-		// Função de animação
-		function animate(timestamp, frame) {
-			if (frame && !instantiatedObject) {
-				const referenceSpace = renderer.xr.getReferenceSpace();
-
-				if (hitTestSource) {
-					const hitTestResults = frame.getHitTestResults(hitTestSource);
-
-					if (hitTestResults.length > 0) {
-						const hit = hitTestResults[0];
-						reticle.visible = true;
-
-						const hitPose = hit.getPose(referenceSpace);
-						if (hitPose) {
-							reticle.matrix.fromArray(hitPose.transform.matrix);
-						}
-
-						hideScanningGif();
-					} else {
-						reticle.visible = false;
-
-						if (!instantiatedObject) {
-							showScanningGif();
-						}
-					}
-				}
-			}
-
-			renderer.render(scene, camera);
-		}
-
-		// Função para iniciar a sessão AR
-		function onSessionStarted(session) {
-			session.addEventListener('end', onSessionEnded);
-
-			renderer.xr.setReferenceSpaceType('local');
-			renderer.xr.setSession(session);
-
-			currentSession = session;
-
-			// Adicionar o controlador para selecionar e posicionar o modelo
-			const controller = renderer.xr.getController(0);
-			controller.addEventListener('select', onSelect);
-			scene.add(controller);
-
-			// Configurar retícula (reticle) para exibir onde o modelo será colocado
-			reticle = new THREE.Mesh(
-				new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2),
-				new THREE.MeshBasicMaterial({ color: 0xffffff })
-			);
-			reticle.matrixAutoUpdate = false;
-			reticle.visible = false;
-			scene.add(reticle);
-
-			// Solicitar hit-test (teste de colisão com superfícies)
-			session.requestReferenceSpace('viewer').then((referenceSpace) => {
-				session.requestHitTestSource({ space: referenceSpace }).then((source) => {
-					hitTestSource = source;
-				});
-			});
-
-			session.addEventListener('end', () => {
-				hitTestSourceRequested = false;
-				hitTestSource = null;
-			});
-
-			hitTestSourceRequested = true;
-			renderer.setAnimationLoop(animate);
-		}
-
-		// Função para finalizar a sessão AR
-		function onSessionEnded() {
-			currentSession = null;
-			document.getElementById('ar-screen').style.display = 'none';
-			document.getElementById('product-selection-screen').style.display = 'block';
-		}
-
-		// Função para processar a seleção e posicionar o modelo
-		function onSelect() {
-			if (reticle.visible && productMesh) {
-				if (instantiatedObject) return; // Impede múltiplos objetos
-
-				const clone = productMesh.clone(); // Clona o modelo
-				reticle.matrix.decompose(clone.position, clone.quaternion, clone.scale);
-
-				instantiatedObject = clone;
-				scene.add(instantiatedObject);
-
-				instantiatedObject.traverse(function(node) {
-					if (node.isMesh)
-						node.castShadow = true;
-				});
-
-				reticle.visible = false; // Esconde a retícula após instanciar
-				controller.removeEventListener('select', onSelect); // Desativa o controlador
-			}
-		}
-
-		function onWindowResize() {
-			camera.aspect = window.innerWidth / window.innerHeight;
-			camera.updateProjectionMatrix();
-			renderer.setSize(window.innerWidth, window.innerHeight);
-		}
-
-		function showScanningGif() {
-			// Exibe o GIF centralizado na tela
-			const gifContainer = document.getElementById('scan-gif-container');
-			gifContainer.style.display = 'block';
-		}
-
-		function hideScanningGif() {
-			// Esconde o GIF de escaneamento
-			const gifContainer = document.getElementById('scan-gif-container');
-			gifContainer.style.display = 'none';
-		}
-
-	</script>
-
-	<script src="pagination.js"></script>
+                initialize();
+            } 
+            catch (err) 
+            {
+                console.error("Erro ao acessar vídeo ou áudio:", err);
+                ShowError("Falha ao iniciar a experiência. Permissão de vídeo ou áudio foi negada.");
+            }
+        }
+        
+    </script>
 </body>
-
 </html>
