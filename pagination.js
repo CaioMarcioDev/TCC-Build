@@ -1,13 +1,13 @@
 const productImages = [
-    { image: 'assets/images/poltrona-lacuna.png', name: 'Poltrona Lacuna', model: 'assets/models/poltrona_lacuna.glb' },
-    { image: 'assets/images/poltrona-pollux.png', name: 'Poltrona Pollux', model: 'assets/models/poltrona_pollux.glb' },
-    { image: 'assets/images/poltrona-lacuna.png', name: 'Poltrona Bauhaus', model: 'assets/models/poltrona_bauhaus.glb' },
-    { image: 'assets/images/cadeira-trapezio.png', name: 'Cadeira Sushi', model: 'assets/models/cadeira_sushi.glb' },
-    { image: 'assets/images/cadeira-trapezio.png', name: 'Cadeira Madeleine', model: 'assets/models/cadeira_madeleine.glb' },
-    { image: 'assets/images/cadeira-trapezio.png', name: 'Poltrona Cuore', model: 'assets/models/poltrona_cuore.glb' },
-    { image: 'assets/images/cadeira-trapezio.png', name: 'Cadeira Garça', model: 'assets/models/cadeira_garca.glb' },
-    { image: 'assets/images/cadeira-trapezio.png', name: 'Poltrona Itiquira', model: 'assets/models/poltrona_itiquira.glb' },
-    { image: 'assets/images/cadeira-trapezio.png', name: 'Cadeira Girafa', model: 'assets/models/cadeira_girafa.glb' }
+    { image: 'assets/images/poltrona_lacuna.png', name: 'Poltrona Lacuna', artist: 'Claudia Moreira Salles', year: '2019', model: 'assets/models/poltrona_lacuna.glb' },
+    { image: 'assets/images/poltrona_pollux.png', name: 'Poltrona Pollux', artist: 'Patricia Anastassiadis', year: '2022',  model: 'assets/models/poltrona_pollux.glb' },
+    { image: 'assets/images/cadeira_bauhaus.png', name: 'Cadeira Bauhaus', artist: 'Roberta Banqueri', year: '2022',  model: 'assets/models/cadeira_bauhaus.glb' },
+    { image: 'assets/images/cadeira_sushi.png', name: 'Cadeira Sushi', artist: 'Linda Martins', year: '2020',  model: 'assets/models/cadeira_sushi.glb' },
+    { image: 'assets/images/cadeira_madeleine.png', name: 'Cadeira Madeleine', artist: 'Noemi Saga', year: 'Sem Data',  model: 'assets/models/cadeira_madeleine.glb' },
+    { image: 'assets/images/poltrona_cuore.png', name: 'Poltrona Cuore', artist: 'Marta Manente', year: 'Sem Data',  model: 'assets/models/poltrona_cuore.glb' },
+    { image: 'assets/images/cadeira_garca.png', name: 'Cadeira Garça', artist: 'Ilse Lang', year: '2019',  model: 'assets/models/cadeira_garca.glb' },
+    { image: 'assets/images/poltrona_itiquira.png', name: 'Poltrona Itiquira', artist: 'Mariana Bueno', year: '2024',  model: 'assets/models/poltrona_itiquira.glb' },
+    { image: 'assets/images/cadeira_girafa.png', name: 'Cadeira Girafa', artist: 'Lina Bo Bardi', year: '1987',  model: 'assets/models/cadeira_girafa.glb' }
 ];
 
 let currentPage = 0;
