@@ -262,6 +262,11 @@
 				instantiatedObject = clone;
 				scene.add(instantiatedObject);
 
+				instantiatedObject.traverse(function(node) {
+					if (node.isMesh)
+						node.castShadow = true;
+				});
+
 				reticle.visible = false; // Esconde a retícula após instanciar
 				controller.removeEventListener('select', onSelect); // Desativa o controlador
 			}
