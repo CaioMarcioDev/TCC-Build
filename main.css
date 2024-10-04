@@ -190,7 +190,7 @@ em {
 
 #start-button {
     position: absolute; /* Para permitir o posicionamento absoluto */
-    bottom: 90px; /* 20% acima da parte inferior da tela */
+    bottom: 20%; /* 20% acima da parte inferior da tela */
     left: 50%; /* Centraliza horizontalmente */
     transform: translateX(-50%); /* Ajusta a posição para o centro */
     padding: 15px 60px; /* Espaçamento interno do botão */
@@ -292,17 +292,17 @@ em {
 
 #logo-image {
 	position: absolute;
-	top: 15%; /* Coloca a imagem 25% a partir do topo da página */
+	top: 10%; /* Coloca a imagem 25% a partir do topo da página */
 	left: 50%;
 	transform: translate(-50%, 0); /* Centraliza horizontalmente sem afetar a altura */
-	width: 300px; /* Ajuste o tamanho da imagem */
+	width: 320px; /* Ajuste o tamanho da imagem */
 	height: auto;
 	z-index: 10; /* Garante que a imagem fique acima do conteúdo 3D */
 }
 
 #ar-experience {
     position: absolute;
-    top: 65%; /* Ajuste conforme necessário para a posição abaixo da logo */
+    bottom: 25%; /* Ajuste conforme necessário para a posição abaixo da logo */
     left: 50%;
     transform: translate(-50%, -50%); /* Centraliza horizontalmente */
     font-family: 'LibreBodoni', sans-serif;
@@ -318,7 +318,7 @@ em {
 
 #choose-mobile {
     position: absolute;
-    top: 100px; /* Ajuste conforme necessário para a posição abaixo da logo */
+    top: 95px; /* Ajuste conforme necessário para a posição abaixo da logo */
     left: 50%;
     transform: translate(-50%, -50%); /* Centraliza horizontalmente */
     font-family: 'Oswald', sans-serif; /* Use a fonte que você definiu anteriormente */
