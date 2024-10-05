@@ -1,0 +1,403 @@
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-Medium.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-MediumItalic.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-SemiBold.ttf') format('truetype');
+    font-weight: 600; /* Semibold */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LibreBodoni';
+    src: url('assets/fonts/LibreBodoni-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600; /* Semibold Italic */
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Medium.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-MediumItalic.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-Semibold.ttf') format('truetype');
+    font-weight: 600; /* Semibold */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Minion3';
+    src: url('assets/fonts/Minion3-SemiboldItalic.ttf') format('truetype');
+    font-weight: 600; /* Semibold Italic */
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('assets/fonts/Oswald-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('assets/fonts/Oswald-Medium.ttf') format('truetype');
+    font-weight: 500; /* Medium */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('assets/fonts/Oswald-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('assets/fonts/Oswald-SemiBold.ttf') format('truetype');
+    font-weight: 600; /* Semibold */
+    font-style: normal;
+}
+
+body {
+    font-family: 'LibreBodoni', sans-serif; /* Define a fonte padrão */
+}
+
+h1 {
+    font-weight: bold; /* Usar a fonte Bold */
+}
+
+h2 {
+    font-weight: 600; /* Usar a fonte Semibold */
+}
+
+p {
+    font-weight: normal; /* Usar a fonte Regular */
+}
+
+em {
+    font-style: italic; /* Usar a fonte Italic */
+}
+
+.medium-text {
+    font-weight: 500; /* Usar a fonte Medium */
+}
+
+.semi-bold-text {
+    font-weight: 600; /* Usar a fonte Semibold */
+}
+
+#start-screen,
+#product-selection-screen {
+    position: fixed; /* Use 'fixed' para ocupar a tela inteira */
+    top: 0; /* Inicia do topo da tela */
+    left: 0; /* Inicia do lado esquerdo da tela */
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    text-align: center;
+    background-color: #ffffff; /* Cor de fundo */
+    z-index: 10; /* Garante que fique acima de outros elementos */
+}
+
+#ar-screen {
+    position: fixed; /* Use 'fixed' para ocupar a tela inteira */
+    top: 0; /* Inicia do topo da tela */
+    left: 0; /* Inicia do lado esquerdo da tela */
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    text-align: center;
+    z-index: 10; /* Garante que fique acima de outros elementos */
+}
+
+#start-button {
+    position: absolute; /* Para permitir o posicionamento absoluto */
+    bottom: 20%; /* 20% acima da parte inferior da tela */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translateX(-50%); /* Ajusta a posição para o centro */
+    padding: 15px 60px; /* Espaçamento interno do botão */
+    font-family: 'LibreBodoni', sans-serif;
+    font-style: italic;
+    font-size: 18px; /* Tamanho da fonte */
+    color: #fff; /* Cor da fonte (branca) */
+    background-color: #000; /* Cor de fundo (preto) */
+    font-family: 'Minion3', sans-serif; /* Fonte Minion3 */
+    font-weight: bold; /* Garante que a versão Bold seja usada */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    border: none; /* Remove a borda padrão */
+    border-radius: 5px; /* Bordas arredondadas, opcional */
+    text-align: center; /* Centraliza o texto dentro do botão */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#back-button {
+    position: absolute; /* Para permitir o posicionamento absoluto */
+    top: 15px; /* Distância do topo da tela */
+    left: 15px; /* Distância da esquerda da tela */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#back-button img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+#back-button-2 {
+    position: absolute; /* Para permitir o posicionamento absoluto */
+    top: 15px; /* Distância do topo da tela */
+    left: 15px; /* Distância da esquerda da tela */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#back-button-2 img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+#reset-button {
+    position: absolute; /* Para permitir o posicionamento absoluto */
+    top: 15px; /* Distância do topo da tela */
+    right: 15px; /* Distância da esquerda da tela */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#reset-button img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+#next-button {
+    position: absolute; /* Posicionamento absoluto */
+    top: 50%; /* Centraliza verticalmente na tela */
+    right: 10px; /* Ancora o botão à direita da tela */
+    transform: translateY(-50%); /* Ajusta a posição vertical */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#next-button img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+#previous-button {
+    position: absolute; /* Posicionamento absoluto */
+    top: 50%; /* Centraliza verticalmente na tela */
+    left: 10px; /* Ancora o botão à esquerda da tela */
+    transform: translateY(-50%); /* Ajusta a posição vertical */
+    padding: 10px; /* Espaçamento interno do botão */
+    background-color: transparent; /* Fundo transparente */
+    border: none; /* Remove a borda padrão */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    z-index: 10; /* Garante que o botão fique acima do conteúdo 3D */
+}
+
+#previous-button img {
+    width: 32px; /* Ajuste o tamanho da imagem conforme necessário */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+#logo-image {
+	position: absolute;
+	top: 15%; /* Coloca a imagem 25% a partir do topo da página */
+	left: 50%;
+	transform: translate(-50%, 0); /* Centraliza horizontalmente sem afetar a altura */
+	width: 250px; /* Ajuste o tamanho da imagem */
+	height: auto;
+	z-index: 10; /* Garante que a imagem fique acima do conteúdo 3D */
+}
+
+#ar-experience {
+    position: absolute;
+    bottom: 25%; /* Ajuste conforme necessário para a posição abaixo da logo */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza horizontalmente */
+    font-family: 'LibreBodoni', sans-serif;
+    font-style: italic;/* Use a fonte que você definiu anteriormente */
+    font-size: 20px; /* Ajuste o tamanho da fonte conforme necessário */
+    color: #000; /* Ajuste a cor conforme necessário */
+    text-align: center; /* Centraliza o texto */
+    z-index: 10; /* Garante que o texto fique acima do conteúdo 3D */
+    width: 300px; /* Define uma largura maior */
+    height: auto; /* Ajusta a altura conforme o conteúdo */
+    padding: 20px; /* Adiciona espaço interno */
+}
+
+#choose-mobile {
+    position: absolute;
+    top: 95px; /* Ajuste conforme necessário para a posição abaixo da logo */
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza horizontalmente */
+    font-family: 'Oswald', sans-serif; /* Use a fonte que você definiu anteriormente */
+    font-size: 32px; /* Ajuste o tamanho da fonte conforme necessário */
+    color: #000; /* Ajuste a cor conforme necessário */
+    text-align: center; /* Centraliza o texto */
+    z-index: 10; /* Garante que o texto fique acima do conteúdo 3D */
+    width: 300px; /* Define uma largura maior */
+    height: auto; /* Ajusta a altura conforme o conteúdo */
+    padding: 20px; /* Adiciona espaço interno */
+}
+
+#product-name {
+    position: absolute;
+    bottom: 90px; /* Ancorado na parte inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Oswald', sans-serif;
+    font-size: 32px;
+    color: #000;
+    text-align: center;
+    z-index: 10;
+    width: 300px; /* Define uma largura maior */
+    height: auto; /* Ajusta a altura conforme o conteúdo */
+    padding: 20px; /* Adiciona espaço interno */
+}
+
+#product-artist {
+    position: absolute;
+    bottom: 65px; /* Ancorado na parte inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'LibreBodoni', sans-serif;
+    font-style: italic;
+    font-size: 20px;
+    color: #000;
+    text-align: center;
+    z-index: 10;
+    width: 300px; /* Define uma largura maior */
+    height: auto; /* Ajusta a altura conforme o conteúdo */
+    padding: 20px; /* Adiciona espaço interno */
+}
+
+#product-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    z-index: 10;
+    width: 200px; /* Defina a largura desejada */
+    height: auto; /* Defina a altura desejada */
+}
+
+#scan-gif-container 
+{
+    display: none; 
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    text-align: center; 
+    z-index: 10;
+}
+
+#scan-gif {
+    width: 250px; /* Define o tamanho da imagem para aproximadamente 18px */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+#scan-text {
+    margin-top: 50px; /* Distância entre o GIF e o texto */
+    color: white;
+    font-size: 18px; /* Aumentei o tamanho da fonte */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    padding: 10px; /* Aumentei o padding para uma caixa de texto maior */
+    border-radius: 8px; /* Aumentei o raio para cantos mais suaves */
+    display: inline-block;
+}
